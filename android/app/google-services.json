@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1009514593776",
+    "project_id": "robolab-management-3d663",
+    "storage_bucket": "robolab-management-3d663.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009514593776:android:af2f950a4ab3d5e5477135",
+        "android_client_info": {
+          "package_name": "com.example.rim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009514593776-4q1rm4epv4uq4iv6gdmtjgsmbgr6keh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKNcl-rjUUq7SefOwWpRBkSlwpagafX24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009514593776-4q1rm4epv4uq4iv6gdmtjgsmbgr6keh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
