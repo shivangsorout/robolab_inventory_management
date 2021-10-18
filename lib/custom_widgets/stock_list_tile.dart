@@ -25,7 +25,7 @@ class _StockListTileState extends State<StockListTile> {
 
   late DocumentReference<Object?> documentReference;
 
-  void getDocumentId(QuerySnapshot snapshot) {
+  void getDocumentReference(QuerySnapshot snapshot) {
     for (var document in snapshot.docs) {
       setState(() {
         documentReference = document.reference;
@@ -57,7 +57,7 @@ class _StockListTileState extends State<StockListTile> {
                     .where('id', isEqualTo: widget.componentId)
                     .snapshots()
                     .listen(
-                        (QuerySnapshot snapshot) => getDocumentId(snapshot));
+                        (QuerySnapshot snapshot) => getDocumentReference(snapshot));
                 await _firestore
                     .runTransaction((Transaction myTransaction) async {
                   myTransaction.delete(documentReference);
