@@ -3,24 +3,62 @@ import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/component_detail_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
-import 'package:rim/models/component.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 
 FirebaseFirestore? _firestore = FirebaseFirestore.instance;
 
-class AddItemScreen extends StatefulWidget {
-  static const String id = 'add_item_screen';
+class EditItemScreen extends StatefulWidget {
+  static const String id = 'edit_item_screen';
+  final String componentId;
+  EditItemScreen({
+    required this.componentId,
+  });
 
   @override
-  State<AddItemScreen> createState() => _AddItemScreenState();
+  State<EditItemScreen> createState() => _EditItemScreenState();
 }
 
-class _AddItemScreenState extends State<AddItemScreen> {
-  Component component = Component();
+class _EditItemScreenState extends State<EditItemScreen> {
   bool valName = false;
   bool valId = false;
   bool valTotalQuantity = false;
   bool valLocker = false;
+  TextEditingController componentIdController = TextEditingController();
+  TextEditingController componentNameController = TextEditingController();
+  TextEditingController totalQuantityController = TextEditingController();
+  TextEditingController lockerNumberController = TextEditingController();
+  String initialcomponentId = '';
+  String initialcomponentName = '';
+  String initialtotalQuantity = '';
+  String initiallockerNumber = '';
+  String documentId = '';
+
+  void _onDatabaseUpdate(QuerySnapshot snapshot) {
+    for (var document in snapshot.docs) {
+      setState(() {
+        initialcomponentId = document.get('id');
+        initialcomponentName = document.get('name');
+        initialtotalQuantity = document.get('quantity');
+        initiallockerNumber = document.get('locker_number');
+        componentIdController.text = initialcomponentId;
+        componentNameController.text = initialcomponentName;
+        totalQuantityController.text = initialtotalQuantity;
+        lockerNumberController.text = initiallockerNumber;
+        documentId = document.id;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _firestore
+        ?.collection('components')
+        .where('id', isEqualTo: widget.componentId)
+        .snapshots()
+        .listen((QuerySnapshot snapshot) => _onDatabaseUpdate(snapshot));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +79,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     },
                   ),
                   title: const Text(
-                    'Add Item',
+                    'Edit Item',
                     style: kTitleTextStyle,
                     textAlign: TextAlign.center,
                   ),
@@ -54,8 +92,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   children: [
                     ComponentDetailTile(
                       tileName: 'Component Name',
+                      controller: componentNameController,
                       onChanged: (val) {
-                        component.componentName = val;
                         setState(() {
                           valName
                               ? val == '' || val == null
@@ -69,8 +107,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     ),
                     ComponentDetailTile(
                         tileName: 'Component Id',
+                        controller: componentIdController,
                         onChanged: (val) {
-                          component.componentId = val;
                           setState(() {
                             valId
                                 ? val == '' || val == null
@@ -83,8 +121,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             valId ? 'Component Id can\'t be empty!' : null),
                     ComponentDetailTile(
                         tileName: 'Total Quantity',
+                        controller: totalQuantityController,
                         onChanged: (val) {
-                          component.quantity = val;
                           setState(() {
                             valTotalQuantity
                                 ? val == '' || val == null
@@ -98,8 +136,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             : null),
                     ComponentDetailTile(
                         tileName: 'Locker Number',
+                        controller: lockerNumberController,
                         onChanged: (val) {
-                          component.locker = val;
                           setState(() {
                             valLocker
                                 ? val == '' || val == null
@@ -118,38 +156,46 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 ),
                 CustomButton(
                   backgroundColor: const Color(0xff5db075),
-                  text: 'Add Item',
+                  text: 'Update Item',
                   onPressed: () {
                     setState(() {
-                      component.componentName == '' ||
-                              component.componentName == null
+                      componentNameController.text == '' ||
+                              componentNameController.text == null
                           ? valName = true
                           : valName = false;
-                      component.componentId == '' ||
-                              component.componentId == null
+                      componentIdController.text == '' ||
+                              componentIdController.text == null
                           ? valId = true
                           : valId = false;
-                      component.locker == '' || component.locker == null
+                      lockerNumberController.text == '' ||
+                              lockerNumberController.text == null
                           ? valLocker = true
                           : valLocker = false;
-                      component.quantity == '' || component.quantity == null
+                      totalQuantityController.text == '' ||
+                              totalQuantityController.text == null
                           ? valTotalQuantity = true
                           : valTotalQuantity = false;
                     });
                     try {
-                      if (component.componentId != null &&
-                          component.locker != null &&
-                          component.componentName != null &&
-                          component.quantity != null &&
-                          component.componentId != '' &&
-                          component.locker != '' &&
-                          component.componentName != '' &&
-                          component.quantity != '') {
-                        _firestore?.collection('components').add({
-                          'id': component.componentId,
-                          'locker_number': component.locker,
-                          'name': component.componentName,
-                          'quantity': component.quantity,
+                      if (componentIdController.text != '' &&
+                          lockerNumberController.text != '' &&
+                          componentNameController.text != '' &&
+                          totalQuantityController.text != '' &&
+                          (componentIdController.text != initialcomponentId ||
+                              lockerNumberController.text !=
+                                  initiallockerNumber ||
+                              componentNameController.text !=
+                                  initialcomponentName ||
+                              totalQuantityController.text !=
+                                  initialtotalQuantity)) {
+                        _firestore
+                            ?.collection('components')
+                            .doc(documentId)
+                            .update({
+                          'id': componentIdController.text,
+                          'locker_number': lockerNumberController.text,
+                          'name': componentNameController.text,
+                          'quantity': totalQuantityController.text,
                         });
                         Navigator.popUntil(
                           context,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rim/custom_widgets/stock_list_tile.dart';
 
 const TextStyle kTitleTextStyle = TextStyle(
   color: Colors.black,
@@ -20,18 +19,3 @@ final OutlineInputBorder kOutlineBorder = OutlineInputBorder(
 final OutlineInputBorder kRoundedBorder = kOutlineBorder.copyWith(
   borderRadius: BorderRadius.circular(30.0),
 );
-
-// const List<StockListTile> kStocks = [
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-//   StockListTile(),
-// ];

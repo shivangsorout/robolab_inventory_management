@@ -5,6 +5,7 @@ import 'package:rim/services/components_list.dart';
 
 class UpdateStockScreen extends StatelessWidget {
   static const String id = 'update_stock_screen';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
