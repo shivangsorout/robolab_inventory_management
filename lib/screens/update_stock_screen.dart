@@ -3,8 +3,14 @@ import 'package:rim/constants.dart';
 import 'package:rim/screens/add_item_screen.dart';
 import 'package:rim/services/components_list.dart';
 
-class UpdateStockScreen extends StatelessWidget {
+class UpdateStockScreen extends StatefulWidget {
   static const String id = 'update_stock_screen';
+
+  @override
+  State<UpdateStockScreen> createState() => _UpdateStockScreenState();
+}
+
+class _UpdateStockScreenState extends State<UpdateStockScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

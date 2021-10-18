@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rim/screens/edit_item_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 
-class StockListTile extends StatelessWidget {
+class StockListTile extends StatefulWidget {
   final String componentName;
   final String componentId;
   final String totalQuantity;
@@ -15,12 +17,52 @@ class StockListTile extends StatelessWidget {
   });
 
   @override
+  State<StockListTile> createState() => _StockListTileState();
+}
+
+class _StockListTileState extends State<StockListTile> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  late DocumentReference<Object?> documentReference;
+
+  void getDocumentId(QuerySnapshot snapshot) {
+    for (var document in snapshot.docs) {
+      setState(() {
+        documentReference = document.reference;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
       child: InkWell(
         onTap: ModalRoute.of(context)?.settings.name == UpdateStockScreen.id
-            ? () {}
+            ? () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        EditItemScreen(componentId: widget.componentId),
+                  ),
+                );
+              }
+            : null,
+        onLongPress: ModalRoute.of(context)?.settings.name ==
+                UpdateStockScreen.id
+            ? () async {
+                _firestore
+                    .collection('components')
+                    .where('id', isEqualTo: widget.componentId)
+                    .snapshots()
+                    .listen(
+                        (QuerySnapshot snapshot) => getDocumentId(snapshot));
+                await _firestore
+                    .runTransaction((Transaction myTransaction) async {
+                  myTransaction.delete(documentReference);
+                });
+              }
             : null,
         child: Container(
           padding: const EdgeInsets.symmetric(
@@ -35,7 +77,7 @@ class StockListTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      componentName,
+                      widget.componentName,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
@@ -43,7 +85,7 @@ class StockListTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      componentId,
+                      widget.componentId,
                       style: const TextStyle(
                         fontSize: 20.0,
                         color: Color(0xffbdbdbd),
@@ -77,7 +119,7 @@ class StockListTile extends StatelessWidget {
                               width: 5.0,
                             ),
                             Text(
-                              totalQuantity,
+                              widget.totalQuantity,
                               style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16.0,
@@ -154,7 +196,7 @@ class StockListTile extends StatelessWidget {
                               width: 5.0,
                             ),
                             Text(
-                              lockerNumber,
+                              widget.lockerNumber,
                               style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16.0,
