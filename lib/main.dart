@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rim/screens/add_item_screen.dart';
 import 'package:rim/screens/available_stock_screen.dart';
+import 'package:rim/screens/edit_item_screen.dart';
 import 'package:rim/screens/home_screen.dart';
 import 'package:rim/screens/manager_signin_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';

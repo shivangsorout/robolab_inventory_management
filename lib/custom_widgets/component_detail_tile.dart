@@ -5,11 +5,13 @@ class ComponentDetailTile extends StatelessWidget {
   final String tileName;
   final void Function(String) onChanged;
   final String? errorText;
+  final TextEditingController? controller;
 
   ComponentDetailTile({
     required this.tileName,
     required this.onChanged,
     required this.errorText,
+    this.controller,
   });
 
   @override
@@ -30,6 +32,7 @@ class ComponentDetailTile extends StatelessWidget {
             height: 15.0,
           ),
           TextField(
+            controller: controller,
             onChanged: onChanged,
             decoration: InputDecoration(
               errorText: errorText,
