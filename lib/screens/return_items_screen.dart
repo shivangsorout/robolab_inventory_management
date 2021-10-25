@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
-import 'package:rim/services/components_list.dart';
+import 'package:rim/custom_widgets/return_item_list_tile.dart';
 
-
-class AvailableStockScreen extends StatefulWidget {
-  static const String id = 'available_stock_screen';
+class ReturnItemsScreen extends StatefulWidget {
+  static const String id = 'return_items_screen';
 
   @override
-  State<AvailableStockScreen> createState() => _AvailableStockScreenState();
+  State<ReturnItemsScreen> createState() => _ReturnItemsScreenState();
 }
 
-class _AvailableStockScreenState extends State<AvailableStockScreen> {
+class _ReturnItemsScreenState extends State<ReturnItemsScreen> {
+  List items = [
+    ReturnItemListTile(),
+    ReturnItemListTile(),
+    ReturnItemListTile(),
+    ReturnItemListTile(),
+    ReturnItemListTile(),
+    ReturnItemListTile(),
+    ReturnItemListTile(),
+    ReturnItemListTile(),
+    ReturnItemListTile(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +39,7 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
                   },
                 ),
                 title: const Text(
-                  'Available Stock',
+                  'Return Items',
                   textAlign: TextAlign.center,
                   style: kTitleTextStyle,
                 ),
@@ -58,7 +68,19 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
               const Divider(
                 thickness: 1.5,
               ),
-              ComponentsList(),
+              Expanded(
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return items[index];
+                  },
+                  separatorBuilder: (context, index) => const Divider(
+                    thickness: 1.5,
+                    indent: 50.0,
+                    endIndent: 27.0,
+                  ),
+                  itemCount: items.length,
+                ),
+              )
             ],
           ),
         ),

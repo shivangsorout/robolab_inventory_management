@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
-import 'package:rim/custom_widgets/component_detail_tile.dart';
+import 'package:rim/custom_widgets/component_details_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 
@@ -31,6 +31,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   String initialcomponentName = '';
   String initialtotalQuantity = '';
   String initiallockerNumber = '';
+  String initialQuantityIssued = '';
   String documentId = '';
 
   void _onDatabaseUpdate(QuerySnapshot snapshot) {
@@ -38,8 +39,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
       setState(() {
         initialcomponentId = document.get('id');
         initialcomponentName = document.get('name');
-        initialtotalQuantity = document.get('quantity');
+        initialtotalQuantity = document.get('total_quantity').toString();
         initiallockerNumber = document.get('locker_number');
+        initialQuantityIssued = document.get('quantity_issued').toString();
         componentIdController.text = initialcomponentId;
         componentNameController.text = initialcomponentName;
         totalQuantityController.text = initialtotalQuantity;
@@ -90,7 +92,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 ),
                 Column(
                   children: [
-                    ComponentDetailTile(
+                    ComponentDetailsTile(
                       tileName: 'Component Name',
                       controller: componentNameController,
                       onChanged: (val) {
@@ -105,7 +107,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       errorText:
                           valName ? 'Component name can\'t be empty!' : null,
                     ),
-                    ComponentDetailTile(
+                    ComponentDetailsTile(
                         tileName: 'Component Id',
                         controller: componentIdController,
                         onChanged: (val) {
@@ -119,7 +121,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         },
                         errorText:
                             valId ? 'Component Id can\'t be empty!' : null),
-                    ComponentDetailTile(
+                    ComponentDetailsTile(
                         tileName: 'Total Quantity',
                         controller: totalQuantityController,
                         onChanged: (val) {
@@ -134,7 +136,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         errorText: valTotalQuantity
                             ? 'Quantity can\'t be empty!'
                             : null),
-                    ComponentDetailTile(
+                    ComponentDetailsTile(
                         tileName: 'Locker Number',
                         controller: lockerNumberController,
                         onChanged: (val) {
@@ -195,7 +197,12 @@ class _EditItemScreenState extends State<EditItemScreen> {
                           'id': componentIdController.text,
                           'locker_number': lockerNumberController.text,
                           'name': componentNameController.text,
-                          'quantity': totalQuantityController.text,
+                          'total_quantity':
+                              int.parse(totalQuantityController.text),
+                          'quantity_issued': int.parse(initialQuantityIssued),
+                          'quantity_available':
+                              int.parse(totalQuantityController.text) -
+                                  int.parse(initialQuantityIssued)
                         });
                         Navigator.popUntil(
                           context,

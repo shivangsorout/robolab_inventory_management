@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
-import 'package:rim/services/components_list.dart';
+import 'package:rim/custom_widgets/history_list_tile.dart';
+import 'package:rim/custom_widgets/return_item_list_tile.dart';
 
-
-class AvailableStockScreen extends StatefulWidget {
-  static const String id = 'available_stock_screen';
+class HistoryScreen extends StatefulWidget {
+  static const String id = 'history_screen';
 
   @override
-  State<AvailableStockScreen> createState() => _AvailableStockScreenState();
+  State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _AvailableStockScreenState extends State<AvailableStockScreen> {
+class _HistoryScreenState extends State<HistoryScreen> {
+  List history = [
+    HistoryListTile(),
+    HistoryListTile(),
+    HistoryListTile(),
+    HistoryListTile(),
+    HistoryListTile(),
+    HistoryListTile(),
+    HistoryListTile(),
+    HistoryListTile(),
+    HistoryListTile(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +40,7 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
                   },
                 ),
                 title: const Text(
-                  'Available Stock',
+                  'History',
                   textAlign: TextAlign.center,
                   style: kTitleTextStyle,
                 ),
@@ -58,7 +69,19 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
               const Divider(
                 thickness: 1.5,
               ),
-              ComponentsList(),
+              Expanded(
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return history[index];
+                  },
+                  separatorBuilder: (context, index) => const Divider(
+                    thickness: 1.5,
+                    indent: 27.0,
+                    endIndent: 27.0,
+                  ),
+                  itemCount: history.length,
+                ),
+              )
             ],
           ),
         ),
