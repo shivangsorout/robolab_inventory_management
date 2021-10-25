@@ -6,14 +6,18 @@ import 'package:rim/screens/update_stock_screen.dart';
 class StockListTile extends StatefulWidget {
   final String componentName;
   final String componentId;
-  final String totalQuantity;
+  final int totalQuantity;
   final String lockerNumber;
+  final int quantityIssued;
+  final int quantityAvailable;
 
   StockListTile({
     required this.componentName,
     required this.componentId,
     required this.totalQuantity,
     required this.lockerNumber,
+    required this.quantityIssued,
+    required this.quantityAvailable,
   });
 
   @override
@@ -49,21 +53,21 @@ class _StockListTileState extends State<StockListTile> {
                 );
               }
             : null,
-        onLongPress: ModalRoute.of(context)?.settings.name ==
-                UpdateStockScreen.id
-            ? () async {
-                _firestore
-                    .collection('components')
-                    .where('id', isEqualTo: widget.componentId)
-                    .snapshots()
-                    .listen(
-                        (QuerySnapshot snapshot) => getDocumentReference(snapshot));
-                await _firestore
-                    .runTransaction((Transaction myTransaction) async {
-                  myTransaction.delete(documentReference);
-                });
-              }
-            : null,
+        onLongPress:
+            ModalRoute.of(context)?.settings.name == UpdateStockScreen.id
+                ? () async {
+                    _firestore
+                        .collection('components')
+                        .where('id', isEqualTo: widget.componentId)
+                        .snapshots()
+                        .listen((QuerySnapshot snapshot) =>
+                            getDocumentReference(snapshot));
+                    await _firestore
+                        .runTransaction((Transaction myTransaction) async {
+                      myTransaction.delete(documentReference);
+                    });
+                  }
+                : null,
         child: Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 30.0,
@@ -119,7 +123,7 @@ class _StockListTileState extends State<StockListTile> {
                               width: 5.0,
                             ),
                             Text(
-                              widget.totalQuantity,
+                              widget.totalQuantity.toString(),
                               style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16.0,
@@ -132,20 +136,20 @@ class _StockListTileState extends State<StockListTile> {
                         ),
                         //Quantity Available
                         Row(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'Quantity Available',
                               style: TextStyle(
                                 color: Color(0xff4b9460),
                                 fontSize: 16.0,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5.0,
                             ),
                             Text(
-                              '20',
-                              style: TextStyle(
+                              widget.quantityAvailable.toString(),
+                              style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16.0,
                               ),
@@ -159,20 +163,20 @@ class _StockListTileState extends State<StockListTile> {
                       children: [
                         //Quantity Issued
                         Row(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'Quantity Issued',
                               style: TextStyle(
                                 color: Color(0xff4b9460),
                                 fontSize: 16.0,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5.0,
                             ),
                             Text(
-                              '0',
-                              style: TextStyle(
+                              widget.quantityIssued.toString(),
+                              style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16.0,
                               ),

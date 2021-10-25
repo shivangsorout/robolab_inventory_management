@@ -17,8 +17,10 @@ class ComponentsList extends StatelessWidget {
             StockListTile(
               componentName: document.get('name'),
               componentId: document.get('id'),
-              totalQuantity: document.get('quantity'),
+              totalQuantity: document.get('total_quantity'),
               lockerNumber: document.get('locker_number'),
+              quantityIssued: document.get('quantity_issued'),
+              quantityAvailable: document.get('quantity_available'),
             ),
           );
         }
