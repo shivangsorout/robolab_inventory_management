@@ -1,19 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rim/constants.dart';
 
-class ReturnItemListTile extends StatelessWidget {
+class ReturnItemListTile extends StatefulWidget {
   final String studentId;
   final String componentId;
   final String issueDate;
-  final int quanityIssued;
+  final int quanityToBeReturned;
   final String issueId;
 
   ReturnItemListTile({
     required this.studentId,
     required this.componentId,
     required this.issueDate,
-    required this.quanityIssued,
+    required this.quanityToBeReturned,
     required this.issueId,
   });
+
+  @override
+  State<ReturnItemListTile> createState() => _ReturnItemListTileState();
+}
+
+class _ReturnItemListTileState extends State<ReturnItemListTile> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String componentDocumentId = '';
+  int componentsQuantityIssued = 0;
+  int componentsQuantityAvailable = 0;
+  void _gettingInitialValues(QuerySnapshot snapshot) {
+    for (var document in snapshot.docs) {
+      setState(() {
+        componentDocumentId = document.id;
+        componentsQuantityIssued = document.get('quantity_issued');
+        componentsQuantityAvailable = document.get('quantity_available');
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    _firestore
+        .collection('components')
+        .where('id', isEqualTo: widget.componentId)
+        .snapshots()
+        .listen((QuerySnapshot snapshot) => _gettingInitialValues(snapshot));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +59,20 @@ class ReturnItemListTile extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              
+              String currentDate = getCurrentDate();
+              //Returning the item.
+              _firestore.collection('history').doc(widget.issueId).update({
+                'return_date': currentDate,
+              });
+              _firestore
+                  .collection('components')
+                  .doc(componentDocumentId)
+                  .update({
+                'quantity_issued':
+                    componentsQuantityIssued - widget.quanityToBeReturned,
+                'quantity_available':
+                    componentsQuantityAvailable + widget.quanityToBeReturned,
+              });
             },
             icon: const Icon(Icons.keyboard_return),
             color: const Color(0xff5db075),
@@ -44,7 +88,7 @@ class ReturnItemListTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          studentId,
+                          widget.studentId,
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -52,7 +96,7 @@ class ReturnItemListTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          componentId,
+                          widget.componentId,
                           style: const TextStyle(
                             fontSize: 20.0,
                             color: Color(0xffbdbdbd),
@@ -81,7 +125,7 @@ class ReturnItemListTile extends StatelessWidget {
                               width: 5.0,
                             ),
                             Text(
-                              issueDate,
+                              widget.issueDate,
                               style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16.0,
@@ -102,7 +146,7 @@ class ReturnItemListTile extends StatelessWidget {
                               width: 5.0,
                             ),
                             Text(
-                              quanityIssued.toString(),
+                              widget.quanityToBeReturned.toString(),
                               style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16.0,

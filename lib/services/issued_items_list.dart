@@ -8,20 +8,22 @@ class IssuedItemsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('issue_items').snapshots(),
+      stream: _firestore.collection('history').snapshots(),
       builder: (context, snapshot) {
         List<ReturnItemListTile> itemsList = [];
         final issuedItems = snapshot.data?.docs ?? [];
         for (var document in issuedItems) {
-          itemsList.add(
-            ReturnItemListTile(
-              componentId: document.get('component_id'),
-              issueDate: document.get('issue_date'),
-              quanityIssued: document.get('quanity_issued'),
-              studentId: document.get('student_id'),
-              issueId: document.get('issue_id'),
-            ),
-          );
+          if (document.get('return_date') == 'NA') {
+            itemsList.add(
+              ReturnItemListTile(
+                componentId: document.get('component_id'),
+                issueDate: document.get('issue_date'),
+                quanityToBeReturned: document.get('quantity_issued'),
+                studentId: document.get('student_id'),
+                issueId: document.get('history_id'),
+              ),
+            );
+          }
         }
         return Expanded(
           child: ListView.separated(
