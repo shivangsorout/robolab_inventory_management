@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
-import 'package:rim/services/components_list.dart';
+import 'package:rim/custom_widgets/return_item_list_tile.dart';
+import 'package:rim/services/issued_items_list.dart';
 
+class ReturnItemsScreen extends StatelessWidget {
+  static const String id = 'return_items_screen';
 
-class AvailableStockScreen extends StatefulWidget {
-  static const String id = 'available_stock_screen';
-
-  @override
-  State<AvailableStockScreen> createState() => _AvailableStockScreenState();
-}
-
-class _AvailableStockScreenState extends State<AvailableStockScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +24,7 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
                   },
                 ),
                 title: const Text(
-                  'Available Stock',
+                  'Return Items',
                   textAlign: TextAlign.center,
                   style: kTitleTextStyle,
                 ),
@@ -58,7 +53,7 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
               const Divider(
                 thickness: 1.5,
               ),
-              ComponentsList(),
+              IssuedItemsList(),
             ],
           ),
         ),

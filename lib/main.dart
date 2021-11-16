@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rim/screens/add_item_screen.dart';
 import 'package:rim/screens/available_stock_screen.dart';
+import 'package:rim/screens/history_screen.dart';
 import 'package:rim/screens/home_screen.dart';
+import 'package:rim/screens/issue_items_screen.dart';
 import 'package:rim/screens/manager_signin_screen.dart';
+import 'package:rim/screens/return_items_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 import 'package:rim/screens/welcome_screen.dart';
 
@@ -25,6 +28,9 @@ class RobolabManagement extends StatelessWidget {
         AvailableStockScreen.id: (context) => AvailableStockScreen(),
         UpdateStockScreen.id: (context) => UpdateStockScreen(),
         AddItemScreen.id: (context) => AddItemScreen(),
+        IssueItemsScreen.id: (context) => IssueItemsScreen(),
+        ReturnItemsScreen.id: (context) => ReturnItemsScreen(),
+        HistoryScreen.id: (context) => HistoryScreen(),
       },
     );
   }

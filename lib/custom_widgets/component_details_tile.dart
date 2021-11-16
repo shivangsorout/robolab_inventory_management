@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 
-class ComponentDetailTile extends StatelessWidget {
+class ComponentDetailsTile extends StatelessWidget {
   final String tileName;
   final void Function(String) onChanged;
   final String? errorText;
   final TextEditingController? controller;
 
-  ComponentDetailTile({
+  ComponentDetailsTile({
     required this.tileName,
     required this.onChanged,
     required this.errorText,
