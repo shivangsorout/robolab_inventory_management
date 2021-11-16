@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/return_item_list_tile.dart';
+import 'package:rim/services/issued_items_list.dart';
 
 class ReturnItemsScreen extends StatefulWidget {
   static const String id = 'return_items_screen';
@@ -14,14 +15,14 @@ class _ReturnItemsScreenState extends State<ReturnItemsScreen> {
     ReturnItemListTile(
       componentId: '1',
       issueDate: '16/11/2021',
-      quanityIssued: 40,
+      quanityToBeReturned: 40,
       studentId: '11835',
       issueId: '343',
     ),
     ReturnItemListTile(
       componentId: '1',
       issueDate: '16/11/2021',
-      quanityIssued: 40,
+      quanityToBeReturned: 40,
       studentId: '11835',
       issueId: '',
     ),
@@ -73,19 +74,20 @@ class _ReturnItemsScreenState extends State<ReturnItemsScreen> {
               const Divider(
                 thickness: 1.5,
               ),
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return items[index];
-                  },
-                  separatorBuilder: (context, index) => const Divider(
-                    thickness: 1.5,
-                    indent: 50.0,
-                    endIndent: 27.0,
-                  ),
-                  itemCount: items.length,
-                ),
-              )
+              IssuedItemsList(),
+              // Expanded(
+              //   child: ListView.separated(
+              //     itemBuilder: (context, index) {
+              //       return items[index];
+              //     },
+              //     separatorBuilder: (context, index) => const Divider(
+              //       thickness: 1.5,
+              //       indent: 50.0,
+              //       endIndent: 27.0,
+              //     ),
+              //     itemCount: items.length,
+              //   ),
+              // )
             ],
           ),
         ),

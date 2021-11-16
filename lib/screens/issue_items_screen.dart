@@ -23,7 +23,6 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   String studentId = '';
   late TextEditingController studentIdController;
   String currentDate = '';
-  String issueId = '';
   Map<int, String> componentsAvailabilityState = {
     0: 'This component is available with max quantity of ',
     1: 'This component is not available at the moment.',
@@ -341,19 +340,19 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                         try {
                           if (duplicateItemList.isEmpty) {
                             for (var item in itemDetailsList) {
-                              _firestore.collection('issue_items').add({
+                              _firestore.collection('history').add({
                                 'student_id': studentId,
                                 'component_id': item.component_id,
+                                'issue_date': currentDate,
                                 'quantity_issued':
                                     int.parse(item.quantity_to_be_issued),
-                                'issue_date': currentDate,
+                                'return_date': 'NA',
                               }).then((docRef) {
-                                issueId = docRef.id;
                                 _firestore
-                                    .collection('issue_items')
+                                    .collection('history')
                                     .doc(docRef.id)
                                     .update({
-                                  'issue_id': docRef.id,
+                                  'history_id': docRef.id,
                                 });
                               });
                               for (var component in availableItemsList) {
@@ -372,22 +371,6 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                   });
                                 }
                               }
-                              _firestore.collection('history').add({
-                                'student_id': studentId,
-                                'component_id': item.component_id,
-                                'issue_date': currentDate,
-                                'quantity_issued':
-                                    int.parse(item.quantity_to_be_issued),
-                                'return_date': 'NA',
-                              }).then((docRef) {
-                                _firestore
-                                    .collection('history')
-                                    .doc(docRef.id)
-                                    .update({
-                                  'history_id': docRef.id,
-                                  'issue_id': issueId,
-                                });
-                              });
                             }
                           } else {
                             for (var i in duplicateItemList)
