@@ -19,3 +19,10 @@ final OutlineInputBorder kOutlineBorder = OutlineInputBorder(
 final OutlineInputBorder kRoundedBorder = kOutlineBorder.copyWith(
   borderRadius: BorderRadius.circular(30.0),
 );
+
+String getCurrentDate() {
+  var date = DateTime.now().toString();
+  var dateParse = DateTime.parse(date);
+  var formattedDate = "${dateParse.day}/${dateParse.month}/${dateParse.year}";
+  return formattedDate.toString();
+}

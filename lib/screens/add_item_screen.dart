@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
-import 'package:rim/custom_widgets/component_detail_tile.dart';
+import 'package:rim/custom_widgets/component_details_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/models/component.dart';
 import 'package:rim/screens/update_stock_screen.dart';
@@ -52,13 +52,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 ),
                 Column(
                   children: [
-                    ComponentDetailTile(
+                    ComponentDetailsTile(
                       tileName: 'Component Name',
                       onChanged: (val) {
                         component.componentName = val;
                         setState(() {
                           valName
-                              ? val == '' || val == null
+                              ? val == ''
                                   ? valName = true
                                   : valName = false
                               : null;
@@ -67,13 +67,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       errorText:
                           valName ? 'Component name can\'t be empty!' : null,
                     ),
-                    ComponentDetailTile(
+                    ComponentDetailsTile(
                         tileName: 'Component Id',
                         onChanged: (val) {
                           component.componentId = val;
                           setState(() {
                             valId
-                                ? val == '' || val == null
+                                ? val == ''
                                     ? valId = true
                                     : valId = false
                                 : null;
@@ -81,13 +81,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         },
                         errorText:
                             valId ? 'Component Id can\'t be empty!' : null),
-                    ComponentDetailTile(
+                    ComponentDetailsTile(
                         tileName: 'Total Quantity',
                         onChanged: (val) {
-                          component.quantity = val;
+                          component.totalQuantity = val;
                           setState(() {
                             valTotalQuantity
-                                ? val == '' || val == null
+                                ? val == ''
                                     ? valTotalQuantity = true
                                     : valTotalQuantity = false
                                 : null;
@@ -96,13 +96,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         errorText: valTotalQuantity
                             ? 'Quantity can\'t be empty!'
                             : null),
-                    ComponentDetailTile(
+                    ComponentDetailsTile(
                         tileName: 'Locker Number',
                         onChanged: (val) {
                           component.locker = val;
                           setState(() {
                             valLocker
-                                ? val == '' || val == null
+                                ? val == ''
                                     ? valLocker = true
                                     : valLocker = false
                                 : null;
@@ -132,7 +132,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       component.locker == '' || component.locker == null
                           ? valLocker = true
                           : valLocker = false;
-                      component.quantity == '' || component.quantity == null
+                      component.totalQuantity == '' || component.totalQuantity == null
                           ? valTotalQuantity = true
                           : valTotalQuantity = false;
                     });
@@ -140,16 +140,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       if (component.componentId != null &&
                           component.locker != null &&
                           component.componentName != null &&
-                          component.quantity != null &&
+                          component.totalQuantity != null &&
                           component.componentId != '' &&
                           component.locker != '' &&
                           component.componentName != '' &&
-                          component.quantity != '') {
+                          component.totalQuantity != '') {
                         _firestore?.collection('components').add({
                           'id': component.componentId,
                           'locker_number': component.locker,
                           'name': component.componentName,
-                          'quantity': component.quantity,
+                          'total_quantity': int.parse(component.totalQuantity),
+                          'quantity_issued': int.parse(component.quantityIssued),
+                          'quantity_available': int.parse(component.totalQuantity) - int.parse(component.quantityIssued),
                         });
                         Navigator.popUntil(
                           context,

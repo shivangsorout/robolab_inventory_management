@@ -1,6 +1,7 @@
 class Component{
   String? componentName;
   String? componentId;
-  String? quantity;
+  String totalQuantity = '';
   String? locker;
+  String quantityIssued = '0';
 }

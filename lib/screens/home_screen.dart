@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/home_screen_tile.dart';
 import 'package:rim/screens/available_stock_screen.dart';
+import 'package:rim/screens/history_screen.dart';
+import 'package:rim/screens/issue_items_screen.dart';
 import 'package:rim/screens/manager_signin_screen.dart';
+import 'package:rim/screens/return_items_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 import 'package:rim/screens/welcome_screen.dart';
 
@@ -92,17 +95,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeScreenTile(
                       imageAddress: 'assets/images/issue.png',
                       tileName: 'Issue Items',
-                      onPress: () {},
+                      onPress: () {
+                        Navigator.pushNamed(context, IssueItemsScreen.id);
+                      },
                     ),
                     HomeScreenTile(
                       imageAddress: 'assets/images/return.png',
                       tileName: 'Return Items',
-                      onPress: () {},
+                      onPress: () {
+                        Navigator.pushNamed(context, ReturnItemsScreen.id);
+                      },
                     ),
                     HomeScreenTile(
                       imageAddress: 'assets/images/history.png',
                       tileName: 'History',
-                      onPress: () {},
+                      onPress: () {
+                        Navigator.pushNamed(context, HistoryScreen.id);
+                      },
                     ),
                   ],
                 ),
