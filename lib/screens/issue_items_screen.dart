@@ -23,6 +23,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   String studentId = '';
   late TextEditingController studentIdController;
   String currentDate = '';
+  String issueId = '';
   Map<int, String> componentsAvailabilityState = {
     0: 'This component is available with max quantity of ',
     1: 'This component is not available at the moment.',
@@ -347,6 +348,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                     int.parse(item.quantity_to_be_issued),
                                 'issue_date': currentDate,
                               }).then((docRef) {
+                                issueId = docRef.id;
                                 _firestore
                                     .collection('issue_items')
                                     .doc(docRef.id)
@@ -383,6 +385,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                     .doc(docRef.id)
                                     .update({
                                   'history_id': docRef.id,
+                                  'issue_id': issueId,
                                 });
                               });
                             }
