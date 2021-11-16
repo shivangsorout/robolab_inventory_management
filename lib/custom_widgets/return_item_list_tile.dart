@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 
 class ReturnItemListTile extends StatelessWidget {
+  final String studentId;
+  final String componentId;
+  final String issueDate;
+  final int quanityIssued;
+  final String issueId;
+
+  ReturnItemListTile({
+    required this.studentId,
+    required this.componentId,
+    required this.issueDate,
+    required this.quanityIssued,
+    required this.issueId,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +27,9 @@ class ReturnItemListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              
+            },
             icon: const Icon(Icons.keyboard_return),
             color: const Color(0xff5db075),
           ),
@@ -26,18 +42,18 @@ class ReturnItemListTile extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
-                          'Student ID',
-                          style: TextStyle(
+                          studentId,
+                          style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
                             fontSize: 25,
                           ),
                         ),
                         Text(
-                          'Component ID',
-                          style: TextStyle(
+                          componentId,
+                          style: const TextStyle(
                             fontSize: 20.0,
                             color: Color(0xffbdbdbd),
                           ),
@@ -53,20 +69,20 @@ class ReturnItemListTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'Issue Date',
                               style: TextStyle(
                                 color: Color(0xff4b9460),
                                 fontSize: 16.0,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5.0,
                             ),
                             Text(
-                              '02/09/2021',
-                              style: TextStyle(
+                              issueDate,
+                              style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16.0,
                               ),
@@ -74,20 +90,20 @@ class ReturnItemListTile extends StatelessWidget {
                           ],
                         ),
                         Row(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'Quantity Issued',
                               style: TextStyle(
                                 color: Color(0xff4b9460),
                                 fontSize: 16.0,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5.0,
                             ),
                             Text(
-                              '40',
-                              style: TextStyle(
+                              quanityIssued.toString(),
+                              style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16.0,
                               ),

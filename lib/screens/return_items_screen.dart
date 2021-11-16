@@ -11,15 +11,20 @@ class ReturnItemsScreen extends StatefulWidget {
 
 class _ReturnItemsScreenState extends State<ReturnItemsScreen> {
   List items = [
-    ReturnItemListTile(),
-    ReturnItemListTile(),
-    ReturnItemListTile(),
-    ReturnItemListTile(),
-    ReturnItemListTile(),
-    ReturnItemListTile(),
-    ReturnItemListTile(),
-    ReturnItemListTile(),
-    ReturnItemListTile(),
+    ReturnItemListTile(
+      componentId: '1',
+      issueDate: '16/11/2021',
+      quanityIssued: 40,
+      studentId: '11835',
+      issueId: '343',
+    ),
+    ReturnItemListTile(
+      componentId: '1',
+      issueDate: '16/11/2021',
+      quanityIssued: 40,
+      studentId: '11835',
+      issueId: '',
+    ),
   ];
   @override
   Widget build(BuildContext context) {
