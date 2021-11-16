@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/history_list_tile.dart';
-import 'package:rim/custom_widgets/return_item_list_tile.dart';
+import 'package:rim/services/transactions_list.dart';
 
 class HistoryScreen extends StatefulWidget {
   static const String id = 'history_screen';
@@ -11,17 +11,6 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  List history = [
-    HistoryListTile(),
-    HistoryListTile(),
-    HistoryListTile(),
-    HistoryListTile(),
-    HistoryListTile(),
-    HistoryListTile(),
-    HistoryListTile(),
-    HistoryListTile(),
-    HistoryListTile(),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,19 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               const Divider(
                 thickness: 1.5,
               ),
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return history[index];
-                  },
-                  separatorBuilder: (context, index) => const Divider(
-                    thickness: 1.5,
-                    indent: 27.0,
-                    endIndent: 27.0,
-                  ),
-                  itemCount: history.length,
-                ),
-              )
+              TransactionsList(),
             ],
           ),
         ),

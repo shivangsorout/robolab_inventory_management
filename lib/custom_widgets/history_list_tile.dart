@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 
 class HistoryListTile extends StatelessWidget {
+  final String studentId;
+  final String componentId;
+  final String issueDate;
+  final int quantityIssued;
+  final String returnDate;
+
+  HistoryListTile({
+    required this.studentId,
+    required this.componentId,
+    required this.issueDate,
+    required this.quantityIssued,
+    required this.returnDate,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,18 +30,18 @@ class HistoryListTile extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text(
-                    'Student ID',
-                    style: TextStyle(
+                    studentId,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
                       fontSize: 25,
                     ),
                   ),
                   Text(
-                    'Component ID',
-                    style: TextStyle(
+                    componentId,
+                    style: const TextStyle(
                       fontSize: 20.0,
                       color: Color(0xffbdbdbd),
                     ),
@@ -43,20 +57,20 @@ class HistoryListTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'Issue Date',
                         style: TextStyle(
                           color: Color(0xff4b9460),
                           fontSize: 16.0,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5.0,
                       ),
                       Text(
-                        '02/09/2021',
-                        style: TextStyle(
+                        issueDate,
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16.0,
                         ),
@@ -64,20 +78,20 @@ class HistoryListTile extends StatelessWidget {
                     ],
                   ),
                   Row(
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'Quantity Issued',
                         style: TextStyle(
                           color: Color(0xff4b9460),
                           fontSize: 16.0,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5.0,
                       ),
                       Text(
-                        '40',
-                        style: TextStyle(
+                        quantityIssued.toString(),
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16.0,
                         ),
@@ -88,20 +102,20 @@ class HistoryListTile extends StatelessWidget {
               ),
             ),
             Row(
-              children: const [
-                Text(
+              children: [
+                const Text(
                   'Return Date',
                   style: TextStyle(
                     color: Color(0xff4b9460),
                     fontSize: 16.0,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5.0,
                 ),
                 Text(
-                  'NA',
-                  style: TextStyle(
+                  returnDate,
+                  style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 16.0,
                   ),

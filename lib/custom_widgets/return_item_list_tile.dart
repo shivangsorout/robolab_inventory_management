@@ -28,11 +28,9 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
   int componentsQuantityAvailable = 0;
   void _gettingInitialValues(QuerySnapshot snapshot) {
     for (var document in snapshot.docs) {
-      setState(() {
-        componentDocumentId = document.id;
-        componentsQuantityIssued = document.get('quantity_issued');
-        componentsQuantityAvailable = document.get('quantity_available');
-      });
+      componentDocumentId = document.id;
+      componentsQuantityIssued = document.get('quantity_issued');
+      componentsQuantityAvailable = document.get('quantity_available');
     }
   }
 

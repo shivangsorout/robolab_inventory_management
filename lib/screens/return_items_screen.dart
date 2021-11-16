@@ -3,30 +3,9 @@ import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/return_item_list_tile.dart';
 import 'package:rim/services/issued_items_list.dart';
 
-class ReturnItemsScreen extends StatefulWidget {
+class ReturnItemsScreen extends StatelessWidget {
   static const String id = 'return_items_screen';
 
-  @override
-  State<ReturnItemsScreen> createState() => _ReturnItemsScreenState();
-}
-
-class _ReturnItemsScreenState extends State<ReturnItemsScreen> {
-  List items = [
-    ReturnItemListTile(
-      componentId: '1',
-      issueDate: '16/11/2021',
-      quanityToBeReturned: 40,
-      studentId: '11835',
-      issueId: '343',
-    ),
-    ReturnItemListTile(
-      componentId: '1',
-      issueDate: '16/11/2021',
-      quanityToBeReturned: 40,
-      studentId: '11835',
-      issueId: '',
-    ),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,19 +54,6 @@ class _ReturnItemsScreenState extends State<ReturnItemsScreen> {
                 thickness: 1.5,
               ),
               IssuedItemsList(),
-              // Expanded(
-              //   child: ListView.separated(
-              //     itemBuilder: (context, index) {
-              //       return items[index];
-              //     },
-              //     separatorBuilder: (context, index) => const Divider(
-              //       thickness: 1.5,
-              //       indent: 50.0,
-              //       endIndent: 27.0,
-              //     ),
-              //     itemCount: items.length,
-              //   ),
-              // )
             ],
           ),
         ),
