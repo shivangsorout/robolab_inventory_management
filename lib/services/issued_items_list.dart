@@ -16,6 +16,7 @@ class IssuedItemsList extends StatelessWidget {
           if (document.get('return_date') == 'NA') {
             itemsList.add(
               ReturnItemListTile(
+                componentUID: document.get('component_uid'),
                 componentId: document.get('component_id'),
                 issueDate: document.get('issue_date'),
                 quanityToBeReturned: document.get('quantity_issued'),
