@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rim/models/available_items.dart';
 
 const TextStyle kTitleTextStyle = TextStyle(
   color: Colors.black,
@@ -26,3 +28,20 @@ String getCurrentDate() {
   var formattedDate = "${dateParse.day}/${dateParse.month}/${dateParse.year}";
   return formattedDate.toString();
 }
+
+  void getAvailableItems(List<AvailableItems> list) async {
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    var snapshots = _firestore.collection('components').snapshots();
+    await for (var snapshot in snapshots) {
+      for (var component in snapshot.docs) {
+        list.add(AvailableItems(
+          quantityIssued: component.get('quantity_issued').toString(),
+          componentId: component.get('id'),
+          quantityAvailable: component.get('quantity_available').toString(),
+          docId: component.id,
+        ));
+        // for (var i in availableItemsList)
+        //   print(i.componentId + ':' + i.quantity);
+      }
+    }
+  }
