@@ -19,10 +19,11 @@ class EditItemScreen extends StatefulWidget {
 }
 
 class _EditItemScreenState extends State<EditItemScreen> {
-  bool valName = false;
-  bool valId = false;
-  bool valTotalQuantity = false;
-  bool valLocker = false;
+  //validations error in fields
+  bool valErrorName = false;
+  bool valErrorId = false;
+  bool valErrorTotalQuantity = false;
+  bool valErrorLocker = false;
   TextEditingController componentIdController = TextEditingController();
   TextEditingController componentNameController = TextEditingController();
   TextEditingController totalQuantityController = TextEditingController();
@@ -97,43 +98,43 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       controller: componentNameController,
                       onChanged: (val) {
                         setState(() {
-                          valName
+                          valErrorName
                               ? val == '' || val == null
-                                  ? valName = true
-                                  : valName = false
+                                  ? valErrorName = true
+                                  : valErrorName = false
                               : null;
                         });
                       },
                       errorText:
-                          valName ? 'Component name can\'t be empty!' : null,
+                          valErrorName ? 'Component name can\'t be empty!' : null,
                     ),
                     ComponentDetailsTile(
                         tileName: 'Component Id',
                         controller: componentIdController,
                         onChanged: (val) {
                           setState(() {
-                            valId
+                            valErrorId
                                 ? val == '' || val == null
-                                    ? valId = true
-                                    : valId = false
+                                    ? valErrorId = true
+                                    : valErrorId = false
                                 : null;
                           });
                         },
                         errorText:
-                            valId ? 'Component Id can\'t be empty!' : null),
+                            valErrorId ? 'Component Id can\'t be empty!' : null),
                     ComponentDetailsTile(
                         tileName: 'Total Quantity',
                         controller: totalQuantityController,
                         onChanged: (val) {
                           setState(() {
-                            valTotalQuantity
+                            valErrorTotalQuantity
                                 ? val == '' || val == null
-                                    ? valTotalQuantity = true
-                                    : valTotalQuantity = false
+                                    ? valErrorTotalQuantity = true
+                                    : valErrorTotalQuantity = false
                                 : null;
                           });
                         },
-                        errorText: valTotalQuantity
+                        errorText: valErrorTotalQuantity
                             ? 'Quantity can\'t be empty!'
                             : null),
                     ComponentDetailsTile(
@@ -141,14 +142,14 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         controller: lockerNumberController,
                         onChanged: (val) {
                           setState(() {
-                            valLocker
+                            valErrorLocker
                                 ? val == '' || val == null
-                                    ? valLocker = true
-                                    : valLocker = false
+                                    ? valErrorLocker = true
+                                    : valErrorLocker = false
                                 : null;
                           });
                         },
-                        errorText: valLocker
+                        errorText: valErrorLocker
                             ? 'Locker number can\'t be empty!'
                             : null),
                   ],
@@ -163,20 +164,20 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     setState(() {
                       componentNameController.text == '' ||
                               componentNameController.text == null
-                          ? valName = true
-                          : valName = false;
+                          ? valErrorName = true
+                          : valErrorName = false;
                       componentIdController.text == '' ||
                               componentIdController.text == null
-                          ? valId = true
-                          : valId = false;
+                          ? valErrorId = true
+                          : valErrorId = false;
                       lockerNumberController.text == '' ||
                               lockerNumberController.text == null
-                          ? valLocker = true
-                          : valLocker = false;
+                          ? valErrorLocker = true
+                          : valErrorLocker = false;
                       totalQuantityController.text == '' ||
                               totalQuantityController.text == null
-                          ? valTotalQuantity = true
-                          : valTotalQuantity = false;
+                          ? valErrorTotalQuantity = true
+                          : valErrorTotalQuantity = false;
                     });
                     try {
                       if (componentIdController.text != '' &&
