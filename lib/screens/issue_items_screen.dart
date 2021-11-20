@@ -37,22 +37,6 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
     2: const Color(0xfffaad14),
   };
 
-  void getAvailableItems() async {
-    var snapshots = _firestore.collection('components').snapshots();
-    await for (var snapshot in snapshots) {
-      for (var component in snapshot.docs) {
-        availableItemsList.add(AvailableItems(
-          quantityIssued: component.get('quantity_issued').toString(),
-          componentId: component.get('id'),
-          quantityAvailable: component.get('quantity_available').toString(),
-          docId: component.id,
-        ));
-        // for (var i in availableItemsList)
-        //   print(i.componentId + ':' + i.quantity);
-      }
-    }
-  }
-
   Color notifyingColor(int index) {
     int colorIndex = 0;
     if (itemDetailsList[index].itemDoesNotExist) {
@@ -163,7 +147,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   void initState() {
     // TODO: implement initState
     studentIdController = TextEditingController();
-    getAvailableItems();
+    getAvailableItems(availableItemsList);
     initializeLists();
     super.initState();
   }
@@ -343,7 +327,16 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                           }
                         }
                         try {
-                          if (duplicateItemList.isEmpty && ((itemDetailsList[0].component_id != '' && itemDetailsList[0].quantity_to_be_issued != '') && (itemDetailsList[0].component_id != null && itemDetailsList[0].quantity_to_be_issued != null)) && studentId != '') {
+                          if (duplicateItemList.isEmpty &&
+                              ((itemDetailsList[0].component_id != '' &&
+                                      itemDetailsList[0]
+                                              .quantity_to_be_issued !=
+                                          '') &&
+                                  (itemDetailsList[0].component_id != null &&
+                                      itemDetailsList[0]
+                                              .quantity_to_be_issued !=
+                                          null)) &&
+                              studentId != '') {
                             for (var item in itemDetailsList) {
                               for (var component in availableItemsList) {
                                 if (component.componentId ==

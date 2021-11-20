@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rim/constants.dart';
+import 'package:rim/models/available_items.dart';
 import 'package:rim/services/available_item_service.dart';
 
 class ReturnItemListTile extends StatefulWidget {
@@ -29,6 +30,17 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   int componentsQuantityIssued = 0;
   int componentsQuantityAvailable = 0;
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      var provider = Provider.of<AvailableItemsList>(context, listen: false);
+      List<AvailableItems> availableItemsList = [];
+      getAvailableItems(availableItemsList);
+      provider.initializingList(availableItemsList);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
