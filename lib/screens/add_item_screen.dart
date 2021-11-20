@@ -65,24 +65,27 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               : null;
                         });
                       },
-                      errorText:
-                          valErrorName ? 'Component name can\'t be empty!' : null,
+                      errorText: valErrorName
+                          ? 'Component name can\'t be empty!'
+                          : null,
                     ),
                     ComponentDetailsTile(
-                        tileName: 'Component Id',
-                        onChanged: (val) {
-                          component.componentId = val;
-                          setState(() {
-                            valErrorId
-                                ? val == ''
-                                    ? valErrorId = true
-                                    : valErrorId = false
-                                : null;
-                          });
-                        },
-                        errorText:
-                            valErrorId ? 'Component Id can\'t be empty!' : null),
+                      tileName: 'Component Id',
+                      onChanged: (val) {
+                        component.componentId = val;
+                        setState(() {
+                          valErrorId
+                              ? val == ''
+                                  ? valErrorId = true
+                                  : valErrorId = false
+                              : null;
+                        });
+                      },
+                      errorText:
+                          valErrorId ? 'Component Id can\'t be empty!' : null,
+                    ),
                     ComponentDetailsTile(
+                        keyboardType: TextInputType.number,
                         tileName: 'Total Quantity',
                         onChanged: (val) {
                           component.totalQuantity = val;
@@ -133,7 +136,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       component.locker == '' || component.locker == null
                           ? valErrorLocker = true
                           : valErrorLocker = false;
-                      component.totalQuantity == '' || component.totalQuantity == null
+                      component.totalQuantity == '' ||
+                              component.totalQuantity == null
                           ? valErrorTotalQuantity = true
                           : valErrorTotalQuantity = false;
                     });
@@ -151,8 +155,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           'locker_number': component.locker,
                           'name': component.componentName,
                           'total_quantity': int.parse(component.totalQuantity),
-                          'quantity_issued': int.parse(component.quantityIssued),
-                          'quantity_available': int.parse(component.totalQuantity) - int.parse(component.quantityIssued),
+                          'quantity_issued':
+                              int.parse(component.quantityIssued),
+                          'quantity_available':
+                              int.parse(component.totalQuantity) -
+                                  int.parse(component.quantityIssued),
                         });
                         Navigator.popUntil(
                           context,

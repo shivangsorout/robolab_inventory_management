@@ -4,10 +4,15 @@ import 'package:flutter/widgets.dart';
 class IssueItemDetails {
   String _componentId = '';
   String _quantityToBeIssued = '';
+  //Validation Error in fields
+  bool quantityTextFieldEnabled = true;
+  bool valErrorComponentId = false;
+  bool valErrorQuantity = false;
   int? index;
   bool textVisibility = false;
   bool isQuantityExceedMaxQuantityAvailable = false;
   int _quantityAvailable = 0;
+  //don't change the value of this boolean
   bool isAvailable = false;
   bool itemDoesNotExist = false;
   TextEditingController? componentIdController;

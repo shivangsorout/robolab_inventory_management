@@ -18,9 +18,13 @@ class IssueItemsScreen extends StatefulWidget {
 
 class _IssueItemsScreenState extends State<IssueItemsScreen> {
   List<ItemCard> itemCardsList = [];
+  List<IssueItemDetails> quantityExceedItemList = [];
+  List<IssueItemDetails> notEnabledItemList = [];
+  List<IssueItemDetails> notValidatedItemList = [];
   List<IssueItemDetails> duplicateItemList = [];
   List<IssueItemDetails> itemDetailsList = [];
   List<AvailableItems> availableItemsList = [];
+  bool valErrorStudentId = false;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String studentId = '';
   late TextEditingController studentIdController;
@@ -76,69 +80,113 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   }
 
   void initializeLists() {
+    var temp = ItemCard(
+      quantityFieldEnabled: (index) {
+        itemDetailsList[index].quantityTextFieldEnabled =
+            (!itemDetailsList[index].isAvailable ||
+                    itemDetailsList[index].itemDoesNotExist)
+                ? false
+                : true;
+        return itemDetailsList[index].quantityTextFieldEnabled;
+      },
+      errorTextComponentId: (index) {
+        String? text = itemDetailsList[index].valErrorComponentId
+            ? 'Component Id can\'t be empty!'
+            : null;
+        return text;
+      },
+      errorTextQuantity: (index) {
+        String? text = itemDetailsList[index].valErrorQuantity
+            ? 'Quantity can\'t be empty!'
+            : null;
+        return text;
+      },
+      notifyingTextColor: notifyingColor,
+      notifyingText: notifyingText,
+      visibilityText: (index) {
+        return itemDetailsList[index].textVisibility;
+      },
+      componentIdController: TextEditingController(),
+      quantityIssuedController: TextEditingController(),
+      onChangedComponentId: (val, index) {
+        itemDetailsList[index].setComponentId(val);
+        itemDetailsList[index].itemDoesNotExist = false;
+        if (val == '') {
+          itemDetailsList[index].textVisibility = false;
+        } else {
+          itemDetailsList[index].textVisibility = true;
+        }
+        if (itemDetailsList[index].component_id != '') {
+          int flag = 0;
+          for (var item in availableItemsList) {
+            if (itemDetailsList[index].component_id == item.componentId) {
+              if (int.parse(item.quantityAvailable) != 0) {
+                itemDetailsList[index].isAvailable = true;
+              }
+              setState(() {
+                itemDetailsList[index]
+                    .setQuantityAvailable(int.parse(item.quantityAvailable));
+                itemDetailsList[index].valErrorComponentId
+                    ? val == ''
+                        ? itemDetailsList[index].valErrorComponentId = true
+                        : itemDetailsList[index].valErrorComponentId = false
+                    : null;
+              });
+              flag++;
+            }
+          }
+          if (flag == 0) {
+            itemDetailsList[index].itemDoesNotExist = true;
+          }
+        } else {
+          itemDetailsList[index].itemDoesNotExist = false;
+          itemDetailsList[index].isAvailable = false;
+        }
+      },
+      onChangedQuantityIssued: (val, index) {
+        itemDetailsList[index].setQuantityToBeIssued(val);
+        itemDetailsList[index].isQuantityExceedMaxQuantityAvailable = false;
+        if (itemDetailsList[index].quantity_available != 0 &&
+            itemDetailsList[index].quantity_to_be_issued != '') {
+          if (int.parse(itemDetailsList[index].quantity_to_be_issued) >
+              itemDetailsList[index].quantity_available) {
+            itemDetailsList[index].isQuantityExceedMaxQuantityAvailable = true;
+          }
+        }
+        setState(() {
+          itemDetailsList[index].valErrorQuantity
+              ? val == ''
+                  ? itemDetailsList[index].valErrorQuantity = true
+                  : itemDetailsList[index].valErrorQuantity = false
+              : null;
+        });
+      },
+      onDeleted: (index) {
+        setState(() {
+          itemCardsList.removeAt(index);
+          itemDetailsList.removeAt(index);
+        });
+      },
+    );
     itemCardsList = [
       ItemCard(
-        notifyingTextColor: notifyingColor,
-        notifyingText: notifyingText,
-        visibilityText: (index) {
-          return itemDetailsList[index].textVisibility;
-        },
-        componentIdController: TextEditingController(),
-        quantityIssuedController: TextEditingController(),
-        onChangedComponentId: (val, index) {
-          itemDetailsList[index].setComponentId(val);
-          itemDetailsList[index].itemDoesNotExist = false;
-          if (val == '') {
-            itemDetailsList[index].textVisibility = false;
-          } else {
-            itemDetailsList[index].textVisibility = true;
-          }
-          if (itemDetailsList[index].component_id != '') {
-            int flag = 0;
-            for (var item in availableItemsList) {
-              if (itemDetailsList[index].component_id == item.componentId) {
-                if (int.parse(item.quantityAvailable) != 0) {
-                  itemDetailsList[index].isAvailable = true;
-                }
-                setState(() {
-                  itemDetailsList[index]
-                      .setQuantityAvailable(int.parse(item.quantityAvailable));
-                });
-                flag++;
-              }
-            }
-            if (flag == 0) {
-              itemDetailsList[index].itemDoesNotExist = true;
-            }
-          } else {
-            itemDetailsList[index].itemDoesNotExist = false;
-            itemDetailsList[index].isAvailable = false;
-          }
-        },
-        onChangedQuantityIssued: (val, index) {
-          itemDetailsList[index].setQuantityToBeIssued(val);
-          itemDetailsList[index].isQuantityExceedMaxQuantityAvailable = false;
-          if (itemDetailsList[index].quantity_available != 0 &&
-              itemDetailsList[index].quantity_to_be_issued != '') {
-            if (int.parse(itemDetailsList[index].quantity_to_be_issued) >
-                itemDetailsList[index].quantity_available) {
-              itemDetailsList[index].isQuantityExceedMaxQuantityAvailable =
-                  true;
-            }
-          }
-        },
-        onDeleted: (index) {
-          setState(() {
-            itemCardsList.removeAt(index);
-            itemDetailsList.removeAt(index);
-          });
-        },
+        quantityFieldEnabled: temp.quantityFieldEnabled,
+        errorTextComponentId: temp.errorTextComponentId,
+        errorTextQuantity: temp.errorTextComponentId,
+        notifyingTextColor: temp.notifyingTextColor,
+        notifyingText: temp.notifyingText,
+        visibilityText: temp.visibilityText,
+        componentIdController: temp.componentIdController,
+        quantityIssuedController: temp.quantityIssuedController,
+        onChangedComponentId: temp.onChangedComponentId,
+        onChangedQuantityIssued: temp.onChangedQuantityIssued,
+        onDeleted: temp.onDeleted,
       )
     ];
     itemDetailsList = [
       IssueItemDetails(
-        componentIdController: TextEditingController(),
-        quantityToBeIssuedController: TextEditingController(),
+        componentIdController: temp.componentIdController,
+        quantityToBeIssuedController: temp.quantityIssuedController,
       ),
     ];
   }
@@ -180,10 +228,19 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ComponentDetailsTile(
+                  keyboardType: TextInputType.text,
                   controller: studentIdController,
-                  errorText: null,
+                  errorText:
+                      valErrorStudentId ? 'Student Id can\'t be empty!' : null,
                   onChanged: (val) {
                     studentId = val;
+                    setState(() {
+                      valErrorStudentId
+                          ? val == ''
+                              ? valErrorStudentId = true
+                              : valErrorStudentId = false
+                          : null;
+                    });
                   },
                   tileName: 'Student Id',
                 ),
@@ -193,6 +250,27 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                   itemBuilder: (context, index) {
                     var temp = itemCardsList[index];
                     itemCardsList[index] = ItemCard(
+                      quantityFieldEnabled: (index) {
+                        itemDetailsList[index].quantityTextFieldEnabled =
+                            (!itemDetailsList[index].isAvailable ||
+                                    itemDetailsList[index].itemDoesNotExist)
+                                ? false
+                                : true;
+                        return itemDetailsList[index].quantityTextFieldEnabled;
+                      },
+                      errorTextComponentId: (index) {
+                        String? text =
+                            itemDetailsList[index].valErrorComponentId
+                                ? 'Component Id can\'t be empty!'
+                                : null;
+                        return text;
+                      },
+                      errorTextQuantity: (index) {
+                        String? text = itemDetailsList[index].valErrorQuantity
+                            ? 'Quantity can\'t be empty!'
+                            : null;
+                        return text;
+                      },
                       index: index,
                       onDeleted: temp.onDeleted,
                       onChangedComponentId: temp.onChangedComponentId,
@@ -204,6 +282,10 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                       quantityIssuedController: temp.quantityIssuedController,
                     );
                     itemDetailsList[index].setIndex(index);
+                    itemDetailsList[index].componentIdController =
+                        temp.componentIdController;
+                    itemDetailsList[index].quantityToBeIssuedController =
+                        temp.quantityIssuedController;
                     return itemCardsList[index];
                   },
                   itemCount: itemCardsList.length,
@@ -221,7 +303,31 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                         setState(() {
                           itemCardsList.add(
                             ItemCard(
-                              // index: (items.length),
+                              quantityFieldEnabled: (index) {
+                                itemDetailsList[index]
+                                        .quantityTextFieldEnabled =
+                                    (!itemDetailsList[index].isAvailable ||
+                                            itemDetailsList[index]
+                                                .itemDoesNotExist)
+                                        ? false
+                                        : true;
+                                return itemDetailsList[index]
+                                    .quantityTextFieldEnabled;
+                              },
+                              errorTextComponentId: (index) {
+                                String? text =
+                                    itemDetailsList[index].valErrorComponentId
+                                        ? 'Component Id can\'t be empty!'
+                                        : null;
+                                return text;
+                              },
+                              errorTextQuantity: (index) {
+                                String? text =
+                                    itemDetailsList[index].valErrorQuantity
+                                        ? 'Quantity can\'t be empty!'
+                                        : null;
+                                return text;
+                              },
                               notifyingTextColor: notifyingColor,
                               notifyingText: notifyingText,
                               visibilityText: (index) {
@@ -262,6 +368,15 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                       false;
                                   itemDetailsList[index].isAvailable = false;
                                 }
+                                setState(() {
+                                  itemDetailsList[index].valErrorComponentId
+                                      ? val == ''
+                                          ? itemDetailsList[index]
+                                              .valErrorComponentId = true
+                                          : itemDetailsList[index]
+                                              .valErrorComponentId = false
+                                      : null;
+                                });
                               },
                               onChangedQuantityIssued: (val, index) {
                                 itemDetailsList[index]
@@ -283,6 +398,15 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                         true;
                                   }
                                 }
+                                setState(() {
+                                  itemDetailsList[index].valErrorQuantity
+                                      ? val == ''
+                                          ? itemDetailsList[index]
+                                              .valErrorQuantity = true
+                                          : itemDetailsList[index]
+                                              .valErrorQuantity = false
+                                      : null;
+                                });
                               },
                               onDeleted: (index) {
                                 setState(() {
@@ -311,6 +435,41 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                       onPressed: () {
                         provider.initializingList(availableItemsList);
                         currentDate = getCurrentDate();
+                        setState(() {
+                          studentId == '' || studentId == null
+                              ? valErrorStudentId = true
+                              : valErrorStudentId = false;
+                        });
+                        //For checking if any item is not exceeding the quantity available
+                        for (var item in itemDetailsList) {
+                          if (item.isQuantityExceedMaxQuantityAvailable) {
+                            notEnabledItemList.add(item);
+                          }
+                        }
+                        //For checking that fields are enabled in the cards or not
+                        for (var item in itemDetailsList) {
+                          if (!item.quantityTextFieldEnabled) {
+                            notEnabledItemList.add(item);
+                          }
+                        }
+
+                        //For checking the validations of the fields in card
+                        for (var item in itemDetailsList) {
+                          setState(() {
+                            item.component_id == '' || item.component_id == null
+                                ? item.valErrorComponentId = true
+                                : item.valErrorComponentId = false;
+                            item.quantity_to_be_issued == '' ||
+                                    item.quantity_to_be_issued == null
+                                ? item.valErrorQuantity = true
+                                : item.valErrorQuantity = false;
+                          });
+                          if (item.valErrorComponentId ||
+                              item.valErrorQuantity) {
+                            notValidatedItemList.add(item);
+                          }
+                        }
+                        //For checking duplication of the items
                         for (var itemI in itemDetailsList) {
                           int matches = -1;
                           for (var itemJ in itemDetailsList) {
@@ -328,15 +487,10 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                         }
                         try {
                           if (duplicateItemList.isEmpty &&
-                              ((itemDetailsList[0].component_id != '' &&
-                                      itemDetailsList[0]
-                                              .quantity_to_be_issued !=
-                                          '') &&
-                                  (itemDetailsList[0].component_id != null &&
-                                      itemDetailsList[0]
-                                              .quantity_to_be_issued !=
-                                          null)) &&
-                              studentId != '') {
+                              notValidatedItemList.isEmpty &&
+                              notEnabledItemList.isEmpty &&
+                              quantityExceedItemList.isEmpty &&
+                              !valErrorStudentId) {
                             for (var item in itemDetailsList) {
                               for (var component in availableItemsList) {
                                 if (component.componentId ==
@@ -373,9 +527,25 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                             }
                             Navigator.pop(context);
                           } else {
-                            for (var i in duplicateItemList)
+                            for (var i in notEnabledItemList) {
+                              print('Not Enabled Item Card: ' +
+                                  (i.index! + 1).toString());
+                            }
+                            for (var i in duplicateItemList) {
                               print(i.component_id);
+                            }
+                            for (var i in notValidatedItemList) {
+                              print('Not Validated Item Card: ' +
+                                  (i.index! + 1).toString());
+                            }
+                            for (var i in quantityExceedItemList) {
+                              print('Quantity exceed of Item: ' +
+                                  (i.index! + 1).toString());
+                            }
                             duplicateItemList.clear();
+                            notValidatedItemList.clear();
+                            notEnabledItemList.clear();
+                            quantityExceedItemList.clear();
                           }
                         } catch (e) {
                           print(e);
