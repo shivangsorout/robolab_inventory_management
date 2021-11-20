@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/item_card.dart';
 import 'package:rim/custom_widgets/component_details_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/models/available_items.dart';
 import 'package:rim/models/issue_item_details.dart';
+import 'package:rim/services/available_item_service.dart';
 
 class IssueItemsScreen extends StatefulWidget {
   static const String id = 'issue_items_screen';
@@ -34,22 +36,6 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
     1: Colors.red,
     2: const Color(0xfffaad14),
   };
-
-  void getAvailableItems() async {
-    var snapshots = _firestore.collection('components').snapshots();
-    await for (var snapshot in snapshots) {
-      for (var component in snapshot.docs) {
-        availableItemsList.add(AvailableItems(
-          quantityIssued: component.get('quantity_issued').toString(),
-          componentId: component.get('id'),
-          quantity: component.get('quantity_available').toString(),
-          docId: component.id,
-        ));
-        // for (var i in availableItemsList)
-        //   print(i.componentId + ':' + i.quantity);
-      }
-    }
-  }
 
   Color notifyingColor(int index) {
     int colorIndex = 0;
@@ -111,12 +97,12 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
             int flag = 0;
             for (var item in availableItemsList) {
               if (itemDetailsList[index].component_id == item.componentId) {
-                if (int.parse(item.quantity) != 0) {
+                if (int.parse(item.quantityAvailable) != 0) {
                   itemDetailsList[index].isAvailable = true;
                 }
                 setState(() {
                   itemDetailsList[index]
-                      .setQuantityAvailable(int.parse(item.quantity));
+                      .setQuantityAvailable(int.parse(item.quantityAvailable));
                 });
                 flag++;
               }
@@ -161,13 +147,14 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   void initState() {
     // TODO: implement initState
     studentIdController = TextEditingController();
-    getAvailableItems();
+    getAvailableItems(availableItemsList);
     initializeLists();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AvailableItemsList>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -255,13 +242,14 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                   for (var item in availableItemsList) {
                                     if (itemDetailsList[index].component_id ==
                                         item.componentId) {
-                                      if (int.parse(item.quantity) != 0) {
+                                      if (int.parse(item.quantityAvailable) !=
+                                          0) {
                                         itemDetailsList[index].isAvailable =
                                             true;
                                       }
                                       itemDetailsList[index]
-                                          .setQuantityAvailable(
-                                              int.parse(item.quantity));
+                                          .setQuantityAvailable(int.parse(
+                                              item.quantityAvailable));
                                       flag++;
                                     }
                                   }
@@ -321,6 +309,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                       backgroundColor: const Color(0xff5db075),
                       text: 'Issue Items',
                       onPressed: () {
+                        provider.initializingList(availableItemsList);
                         currentDate = getCurrentDate();
                         for (var itemI in itemDetailsList) {
                           int matches = -1;
@@ -338,26 +327,36 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                           }
                         }
                         try {
-                          if (duplicateItemList.isEmpty) {
+                          if (duplicateItemList.isEmpty &&
+                              ((itemDetailsList[0].component_id != '' &&
+                                      itemDetailsList[0]
+                                              .quantity_to_be_issued !=
+                                          '') &&
+                                  (itemDetailsList[0].component_id != null &&
+                                      itemDetailsList[0]
+                                              .quantity_to_be_issued !=
+                                          null)) &&
+                              studentId != '') {
                             for (var item in itemDetailsList) {
-                              _firestore.collection('history').add({
-                                'student_id': studentId,
-                                'component_id': item.component_id,
-                                'issue_date': currentDate,
-                                'quantity_issued':
-                                    int.parse(item.quantity_to_be_issued),
-                                'return_date': 'NA',
-                              }).then((docRef) {
-                                _firestore
-                                    .collection('history')
-                                    .doc(docRef.id)
-                                    .update({
-                                  'history_id': docRef.id,
-                                });
-                              });
                               for (var component in availableItemsList) {
                                 if (component.componentId ==
                                     item.component_id) {
+                                  _firestore.collection('history').add({
+                                    'student_id': studentId,
+                                    'component_id': item.component_id,
+                                    'issue_date': currentDate,
+                                    'quantity_issued':
+                                        int.parse(item.quantity_to_be_issued),
+                                    'return_date': 'NA',
+                                    'component_uid': component.docId,
+                                  }).then((docRef) {
+                                    _firestore
+                                        .collection('history')
+                                        .doc(docRef.id)
+                                        .update({
+                                      'history_id': docRef.id,
+                                    });
+                                  });
                                   _firestore
                                       .collection('components')
                                       .doc(component.docId)
@@ -366,12 +365,13 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                         int.parse(item.quantity_to_be_issued) +
                                             int.parse(component.quantityIssued),
                                     'quantity_available': int.parse(
-                                            component.quantity) -
+                                            component.quantityAvailable) -
                                         int.parse(item.quantity_to_be_issued),
                                   });
                                 }
                               }
                             }
+                            Navigator.pop(context);
                           } else {
                             for (var i in duplicateItemList)
                               print(i.component_id);
