@@ -17,10 +17,11 @@ class AddItemScreen extends StatefulWidget {
 
 class _AddItemScreenState extends State<AddItemScreen> {
   Component component = Component();
-  bool valName = false;
-  bool valId = false;
-  bool valTotalQuantity = false;
-  bool valLocker = false;
+  //validation errors in fields
+  bool valErrorName = false;
+  bool valErrorId = false;
+  bool valErrorTotalQuantity = false;
+  bool valErrorLocker = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,43 +58,46 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       onChanged: (val) {
                         component.componentName = val;
                         setState(() {
-                          valName
+                          valErrorName
                               ? val == ''
-                                  ? valName = true
-                                  : valName = false
+                                  ? valErrorName = true
+                                  : valErrorName = false
+                              : null;
+                        });
+                      },
+                      errorText: valErrorName
+                          ? 'Component name can\'t be empty!'
+                          : null,
+                    ),
+                    ComponentDetailsTile(
+                      tileName: 'Component Id',
+                      onChanged: (val) {
+                        component.componentId = val;
+                        setState(() {
+                          valErrorId
+                              ? val == ''
+                                  ? valErrorId = true
+                                  : valErrorId = false
                               : null;
                         });
                       },
                       errorText:
-                          valName ? 'Component name can\'t be empty!' : null,
+                          valErrorId ? 'Component Id can\'t be empty!' : null,
                     ),
                     ComponentDetailsTile(
-                        tileName: 'Component Id',
-                        onChanged: (val) {
-                          component.componentId = val;
-                          setState(() {
-                            valId
-                                ? val == ''
-                                    ? valId = true
-                                    : valId = false
-                                : null;
-                          });
-                        },
-                        errorText:
-                            valId ? 'Component Id can\'t be empty!' : null),
-                    ComponentDetailsTile(
+                        keyboardType: TextInputType.number,
                         tileName: 'Total Quantity',
                         onChanged: (val) {
                           component.totalQuantity = val;
                           setState(() {
-                            valTotalQuantity
+                            valErrorTotalQuantity
                                 ? val == ''
-                                    ? valTotalQuantity = true
-                                    : valTotalQuantity = false
+                                    ? valErrorTotalQuantity = true
+                                    : valErrorTotalQuantity = false
                                 : null;
                           });
                         },
-                        errorText: valTotalQuantity
+                        errorText: valErrorTotalQuantity
                             ? 'Quantity can\'t be empty!'
                             : null),
                     ComponentDetailsTile(
@@ -101,14 +105,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         onChanged: (val) {
                           component.locker = val;
                           setState(() {
-                            valLocker
+                            valErrorLocker
                                 ? val == ''
-                                    ? valLocker = true
-                                    : valLocker = false
+                                    ? valErrorLocker = true
+                                    : valErrorLocker = false
                                 : null;
                           });
                         },
-                        errorText: valLocker
+                        errorText: valErrorLocker
                             ? 'Locker number can\'t be empty!'
                             : null),
                   ],
@@ -123,18 +127,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     setState(() {
                       component.componentName == '' ||
                               component.componentName == null
-                          ? valName = true
-                          : valName = false;
+                          ? valErrorName = true
+                          : valErrorName = false;
                       component.componentId == '' ||
                               component.componentId == null
-                          ? valId = true
-                          : valId = false;
+                          ? valErrorId = true
+                          : valErrorId = false;
                       component.locker == '' || component.locker == null
-                          ? valLocker = true
-                          : valLocker = false;
-                      component.totalQuantity == '' || component.totalQuantity == null
-                          ? valTotalQuantity = true
-                          : valTotalQuantity = false;
+                          ? valErrorLocker = true
+                          : valErrorLocker = false;
+                      component.totalQuantity == '' ||
+                              component.totalQuantity == null
+                          ? valErrorTotalQuantity = true
+                          : valErrorTotalQuantity = false;
                     });
                     try {
                       if (component.componentId != null &&
@@ -150,8 +155,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           'locker_number': component.locker,
                           'name': component.componentName,
                           'total_quantity': int.parse(component.totalQuantity),
-                          'quantity_issued': int.parse(component.quantityIssued),
-                          'quantity_available': int.parse(component.totalQuantity) - int.parse(component.quantityIssued),
+                          'quantity_issued':
+                              int.parse(component.quantityIssued),
+                          'quantity_available':
+                              int.parse(component.totalQuantity) -
+                                  int.parse(component.quantityIssued),
                         });
                         Navigator.popUntil(
                           context,
