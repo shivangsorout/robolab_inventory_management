@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rim/constants.dart';
+import 'package:rim/models/available_items.dart';
+import 'package:rim/services/available_item_service.dart';
 
 class ReturnItemListTile extends StatefulWidget {
   final String studentId;
   final String componentId;
+  final String componentUID;
   final String issueDate;
   final int quanityToBeReturned;
   final String issueId;
@@ -12,6 +16,7 @@ class ReturnItemListTile extends StatefulWidget {
   ReturnItemListTile({
     required this.studentId,
     required this.componentId,
+    required this.componentUID,
     required this.issueDate,
     required this.quanityToBeReturned,
     required this.issueId,
@@ -23,29 +28,23 @@ class ReturnItemListTile extends StatefulWidget {
 
 class _ReturnItemListTileState extends State<ReturnItemListTile> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  String componentDocumentId = '';
   int componentsQuantityIssued = 0;
   int componentsQuantityAvailable = 0;
-  void _gettingInitialValues(QuerySnapshot snapshot) {
-    for (var document in snapshot.docs) {
-      componentDocumentId = document.id;
-      componentsQuantityIssued = document.get('quantity_issued');
-      componentsQuantityAvailable = document.get('quantity_available');
-    }
-  }
 
   @override
   void initState() {
-    _firestore
-        .collection('components')
-        .where('id', isEqualTo: widget.componentId)
-        .snapshots()
-        .listen((QuerySnapshot snapshot) => _gettingInitialValues(snapshot));
+    Future.delayed(Duration.zero, () {
+      var provider = Provider.of<AvailableItemsList>(context, listen: false);
+      List<AvailableItems> availableItemsList = [];
+      getAvailableItems(availableItemsList);
+      provider.initializingList(availableItemsList);
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AvailableItemsList>(context);
     return Container(
       padding: const EdgeInsets.only(
         right: 30.0,
@@ -57,6 +56,13 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
         children: [
           IconButton(
             onPressed: () {
+              for (var item in provider.availableItemsList) {
+                if (item.componentId == widget.componentId) {
+                  componentsQuantityAvailable =
+                      int.parse(item.quantityAvailable);
+                  componentsQuantityIssued = int.parse(item.quantityIssued);
+                }
+              }
               String currentDate = getCurrentDate();
               //Returning the item.
               _firestore.collection('history').doc(widget.issueId).update({
@@ -64,7 +70,7 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
               });
               _firestore
                   .collection('components')
-                  .doc(componentDocumentId)
+                  .doc(widget.componentUID)
                   .update({
                 'quantity_issued':
                     componentsQuantityIssued - widget.quanityToBeReturned,

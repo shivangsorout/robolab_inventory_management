@@ -13,9 +13,11 @@ class IssuedItemsList extends StatelessWidget {
         List<ReturnItemListTile> itemsList = [];
         final issuedItems = snapshot.data?.docs ?? [];
         for (var document in issuedItems) {
-          if (document.get('return_date') == 'NA') {
+          var returnDate = document.get('return_date');
+          if (returnDate == 'NA') {
             itemsList.add(
               ReturnItemListTile(
+                componentUID: document.get('component_uid'),
                 componentId: document.get('component_id'),
                 issueDate: document.get('issue_date'),
                 quanityToBeReturned: document.get('quantity_issued'),
