@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rim/constants.dart';
 
 class ComponentDetailsTile extends StatelessWidget {
@@ -6,12 +7,18 @@ class ComponentDetailsTile extends StatelessWidget {
   final void Function(String) onChanged;
   final String? errorText;
   final TextEditingController? controller;
+  final bool? textFieldEnabled;
+  final TextInputType? keyboardType;
+  List<TextInputFormatter>? inputFormatters;
 
   ComponentDetailsTile({
     required this.tileName,
     required this.onChanged,
     required this.errorText,
     this.controller,
+    this.textFieldEnabled,
+    this.keyboardType,
+    this.inputFormatters,
   });
 
   @override
@@ -32,6 +39,9 @@ class ComponentDetailsTile extends StatelessWidget {
             height: 15.0,
           ),
           TextField(
+            inputFormatters: inputFormatters ?? [],
+            keyboardType: keyboardType,
+            enabled: textFieldEnabled ?? true,
             controller: controller,
             onChanged: onChanged,
             decoration: InputDecoration(
