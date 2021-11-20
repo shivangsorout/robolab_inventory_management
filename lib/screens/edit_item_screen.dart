@@ -105,8 +105,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
                               : null;
                         });
                       },
-                      errorText:
-                          valErrorName ? 'Component name can\'t be empty!' : null,
+                      errorText: valErrorName
+                          ? 'Component name can\'t be empty!'
+                          : null,
                     ),
                     ComponentDetailsTile(
                         tileName: 'Component Id',
@@ -120,9 +121,11 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 : null;
                           });
                         },
-                        errorText:
-                            valErrorId ? 'Component Id can\'t be empty!' : null),
+                        errorText: valErrorId
+                            ? 'Component Id can\'t be empty!'
+                            : null),
                     ComponentDetailsTile(
+                        keyboardType: TextInputType.number,
                         tileName: 'Total Quantity',
                         controller: totalQuantityController,
                         onChanged: (val) {
