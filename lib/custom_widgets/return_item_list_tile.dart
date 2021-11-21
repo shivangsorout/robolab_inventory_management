@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rim/constants.dart';
+import 'package:rim/custom_widgets/alert_message.dart';
+import 'package:rim/custom_widgets/confirm_alert_message.dart';
 import 'package:rim/models/available_items.dart';
 import 'package:rim/services/available_item_service.dart';
 
@@ -65,18 +67,44 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
               }
               String currentDate = getCurrentDate();
               //Returning the item.
-              _firestore.collection('history').doc(widget.issueId).update({
-                'return_date': currentDate,
-              });
-              _firestore
-                  .collection('components')
-                  .doc(widget.componentUID)
-                  .update({
-                'quantity_issued':
-                    componentsQuantityIssued - widget.quanityToBeReturned,
-                'quantity_available':
-                    componentsQuantityAvailable + widget.quanityToBeReturned,
-              });
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return ConfirmAlertMessage(
+                    confirmingMessage:
+                        'Do you want to confirm this component\'s return?',
+                    confirmOnPressed: () {
+                      Navigator.pop(context);
+                      _firestore
+                          .collection('history')
+                          .doc(widget.issueId)
+                          .update({
+                        'return_date': currentDate,
+                      });
+                      _firestore
+                          .collection('components')
+                          .doc(widget.componentUID)
+                          .update({
+                        'quantity_issued': componentsQuantityIssued -
+                            widget.quanityToBeReturned,
+                        'quantity_available': componentsQuantityAvailable +
+                            widget.quanityToBeReturned,
+                      });
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return const AlertMessage(
+                            message: 'Components Returned Successfully',
+                          );
+                        },
+                      );
+                    },
+                    cancelOnPressed: () {
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              );
             },
             icon: const Icon(Icons.keyboard_return),
             color: const Color(0xff5db075),

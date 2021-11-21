@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
+import 'package:rim/custom_widgets/alert_message.dart';
 import 'package:rim/custom_widgets/component_details_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/models/component.dart';
@@ -161,10 +162,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               int.parse(component.totalQuantity) -
                                   int.parse(component.quantityIssued),
                         });
-                        Navigator.popUntil(
-                          context,
-                          ModalRoute.withName(UpdateStockScreen.id),
-                        );
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return const AlertMessage(
+                                message: 'Component Added Successfully',
+                              );
+                            }).then((value) {
+                          Navigator.popUntil(
+                            context,
+                            ModalRoute.withName(UpdateStockScreen.id),
+                          );
+                        });
                       }
                     } catch (e) {
                       print(e);
