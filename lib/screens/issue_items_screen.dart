@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rim/constants.dart';
+import 'package:rim/custom_widgets/alert_message.dart';
 import 'package:rim/custom_widgets/item_card.dart';
 import 'package:rim/custom_widgets/component_details_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
@@ -443,7 +444,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                         //For checking if any item is not exceeding the quantity available
                         for (var item in itemDetailsList) {
                           if (item.isQuantityExceedMaxQuantityAvailable) {
-                            notEnabledItemList.add(item);
+                            quantityExceedItemList.add(item);
                           }
                         }
                         //For checking that fields are enabled in the cards or not
@@ -525,14 +526,51 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                 }
                               }
                             }
-                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return const AlertMessage(
+                                  message: 'Components Issued Successfully',
+                                );
+                              },
+                            ).then(
+                              (value) {
+                                Navigator.pop(context);
+                              },
+                            );
+                          } else if (!duplicateItemList.isEmpty) {
+                            String duplicateItems = '';
+                            for (var i in duplicateItemList) {
+                              if (i ==
+                                  duplicateItemList[
+                                      (duplicateItemList.length - 1)]) {
+                                duplicateItems =
+                                    duplicateItems + (i.index! + 1).toString();
+                              } else {
+                                duplicateItems = duplicateItems +
+                                    (i.index! + 1).toString() +
+                                    ', ';
+                              }
+                            }
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return AlertMessage(
+                                  message:
+                                      'Duplicate Items found in item cards: ' +
+                                          duplicateItems +
+                                          '. Please resolve this issue.',
+                                );
+                              },
+                            ).then(
+                              (value) {
+                                duplicateItemList.clear();
+                              },
+                            );
                           } else {
                             for (var i in notEnabledItemList) {
                               print('Not Enabled Item Card: ' +
                                   (i.index! + 1).toString());
-                            }
-                            for (var i in duplicateItemList) {
-                              print(i.component_id);
                             }
                             for (var i in notValidatedItemList) {
                               print('Not Validated Item Card: ' +
@@ -542,7 +580,6 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                               print('Quantity exceed of Item: ' +
                                   (i.index! + 1).toString());
                             }
-                            duplicateItemList.clear();
                             notValidatedItemList.clear();
                             notEnabledItemList.clear();
                             quantityExceedItemList.clear();
