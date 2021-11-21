@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rim/custom_widgets/alert_message.dart';
+import 'package:rim/custom_widgets/confirm_alert_message.dart';
 import 'package:rim/screens/edit_item_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 
@@ -53,21 +55,43 @@ class _StockListTileState extends State<StockListTile> {
                 );
               }
             : null,
-        onLongPress:
-            ModalRoute.of(context)?.settings.name == UpdateStockScreen.id
-                ? () async {
-                    _firestore
-                        .collection('components')
-                        .where('id', isEqualTo: widget.componentId)
-                        .snapshots()
-                        .listen((QuerySnapshot snapshot) =>
-                            getDocumentReference(snapshot));
-                    await _firestore
-                        .runTransaction((Transaction myTransaction) async {
-                      myTransaction.delete(documentReference);
-                    });
-                  }
-                : null,
+        onLongPress: ModalRoute.of(context)?.settings.name ==
+                UpdateStockScreen.id
+            ? () async {
+                showDialog(
+                  context: context,
+                  builder: (_) {
+                    return ConfirmAlertMessage(
+                      confirmingMessage:
+                          'Do you want to confirm this component\'s deletion?',
+                      confirmOnPressed: () async {
+                        Navigator.pop(context);
+                        _firestore
+                            .collection('components')
+                            .where('id', isEqualTo: widget.componentId)
+                            .snapshots()
+                            .listen((QuerySnapshot snapshot) =>
+                                getDocumentReference(snapshot));
+                        await _firestore
+                            .runTransaction((Transaction myTransaction) async {
+                          myTransaction.delete(documentReference);
+                        });
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return const AlertMessage(
+                                message: 'Component Deleted Successfully',
+                              );
+                            });
+                      },
+                      cancelOnPressed: () {
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                );
+              }
+            : null,
         child: Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 30.0,
