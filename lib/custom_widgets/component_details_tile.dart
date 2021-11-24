@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rim/constants.dart';
+import 'package:rim/size_config.dart';
 
 class ComponentDetailsTile extends StatelessWidget {
   final String tileName;
@@ -30,15 +31,18 @@ class ComponentDetailsTile extends StatelessWidget {
         children: [
           Text(
             tileName,
-            style: const TextStyle(
-              color: Color(0xff666666),
-              fontSize: 18.0,
+            style: TextStyle(
+              color: const Color(0xff666666),
+              fontSize: 1.52 * SizeConfig.heightMultiplier!,
             ),
           ),
-          const SizedBox(
-            height: 15.0,
+          SizedBox(
+            height: 1.469 * SizeConfig.heightMultiplier!,
           ),
           TextField(
+            style: TextStyle(
+              fontSize: 1.33 * SizeConfig.heightMultiplier!,
+            ),
             inputFormatters: inputFormatters ?? [],
             keyboardType: keyboardType,
             enabled: textFieldEnabled ?? true,
@@ -47,9 +51,9 @@ class ComponentDetailsTile extends StatelessWidget {
             decoration: InputDecoration(
               errorText: errorText,
               hintText: tileName,
-              hintStyle: const TextStyle(
-                fontSize: 17.0,
-                color: Color(0xffbdbdbd),
+              hintStyle: TextStyle(
+                fontSize: 1.469 * SizeConfig.heightMultiplier!,
+                color: const Color(0xffbdbdbd),
               ),
               filled: true,
               fillColor: const Color(0xfff6f6f6),

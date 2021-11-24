@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rim/size_config.dart';
 
 class AlertMessage extends StatelessWidget {
   final String message;
@@ -14,16 +15,16 @@ class AlertMessage extends StatelessWidget {
       content: Text(
         message,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 40.0,
+        style: TextStyle(
+          fontSize: 3.72 * SizeConfig.textMultiplier!,
           color: Colors.black,
           fontWeight: FontWeight.w500,
           backgroundColor: Colors.white,
         ),
       ),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 40.0,
-        vertical: 50.0,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 8.146 * SizeConfig.widthMultiplier!,
+        vertical: 4.89 * SizeConfig.heightMultiplier!,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),

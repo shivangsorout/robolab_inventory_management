@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/history_list_tile.dart';
 import 'package:rim/services/transactions_list.dart';
+import 'package:rim/size_config.dart';
 
 class HistoryScreen extends StatefulWidget {
   static const String id = 'history_screen';
@@ -17,7 +18,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: kPaddingScreens,
+          padding: EdgeInsets.symmetric(
+            horizontal: 4 * SizeConfig.widthMultiplier!,
+            vertical: 2 * SizeConfig.heightMultiplier!,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -28,22 +32,26 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     Navigator.pop(context);
                   },
                 ),
-                title: const Text(
+                title: Text(
                   'History',
                   textAlign: TextAlign.center,
-                  style: kTitleTextStyle,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: SizeConfig.textMultiplier! * 4,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 trailing: const Text(' '),
               ),
-              const SizedBox(
-                height: 30.0,
+              SizedBox(
+                height: 2.938 * SizeConfig.heightMultiplier!,
               ),
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Search',
-                  hintStyle: const TextStyle(
-                    fontSize: 17.0,
-                    color: Color(0xffbdbdbd),
+                  hintStyle: TextStyle(
+                    fontSize: 1.5 * SizeConfig.textMultiplier!,
+                    color: const Color(0xffbdbdbd),
                   ),
                   filled: true,
                   fillColor: const Color(0xfff6f6f6),
@@ -52,8 +60,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   focusedBorder: kRoundedBorder,
                 ),
               ),
-              const SizedBox(
-                height: 10.0,
+              SizedBox(
+                height: 1 * SizeConfig.heightMultiplier!,
               ),
               const Divider(
                 thickness: 1.5,

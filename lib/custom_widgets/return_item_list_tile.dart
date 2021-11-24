@@ -6,6 +6,7 @@ import 'package:rim/custom_widgets/alert_message.dart';
 import 'package:rim/custom_widgets/confirm_alert_message.dart';
 import 'package:rim/models/available_items.dart';
 import 'package:rim/services/available_item_service.dart';
+import 'package:rim/size_config.dart';
 
 class ReturnItemListTile extends StatefulWidget {
   final String studentId;
@@ -48,10 +49,10 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
   Widget build(BuildContext context) {
     var provider = Provider.of<AvailableItemsList>(context);
     return Container(
-      padding: const EdgeInsets.only(
-        right: 30.0,
-        top: 15.0,
-        bottom: 10.0,
+      padding: EdgeInsets.only(
+        right: 6.109 * SizeConfig.widthMultiplier!,
+        top: 1.469 * SizeConfig.heightMultiplier!,
+        bottom: 1 * SizeConfig.heightMultiplier!,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,80 +109,85 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
             },
             icon: const Icon(Icons.keyboard_return),
             color: const Color(0xff5db075),
+            iconSize: 4.887 * SizeConfig.widthMultiplier!,
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+              padding: EdgeInsets.only(
+                left: 2.036 * SizeConfig.widthMultiplier!,
+              ),
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
+                    padding: EdgeInsets.only(
+                      bottom: 1 * SizeConfig.heightMultiplier!,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           widget.studentId,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 2.252 * SizeConfig.textMultiplier!,
                           ),
                         ),
                         Text(
                           widget.componentId,
-                          style: const TextStyle(
-                            fontSize: 20.0,
-                            color: Color(0xffbdbdbd),
+                          style: TextStyle(
+                            fontSize: 1.762 * SizeConfig.textMultiplier!,
+                            color: const Color(0xffbdbdbd),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 5.0,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 0.489 * SizeConfig.heightMultiplier!,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            const Text(
+                            Text(
                               'Issue Date',
                               style: TextStyle(
-                                color: Color(0xff4b9460),
-                                fontSize: 16.0,
+                                color: const Color(0xff4b9460),
+                                fontSize: 1.371 * SizeConfig.textMultiplier!,
                               ),
                             ),
-                            const SizedBox(
-                              width: 5.0,
+                            SizedBox(
+                              width: 1.01 * SizeConfig.widthMultiplier!,
                             ),
                             Text(
                               widget.issueDate,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 16.0,
+                                fontSize: 1.273 * SizeConfig.textMultiplier!,
                               ),
                             ),
                           ],
                         ),
                         Row(
                           children: [
-                            const Text(
+                            Text(
                               'Quantity Issued',
                               style: TextStyle(
-                                color: Color(0xff4b9460),
-                                fontSize: 16.0,
+                                color: const Color(0xff4b9460),
+                                fontSize: 1.371 * SizeConfig.textMultiplier!,
                               ),
                             ),
-                            const SizedBox(
-                              width: 5.0,
+                            SizedBox(
+                              width: 1.01 * SizeConfig.widthMultiplier!,
                             ),
                             Text(
                               widget.quanityToBeReturned.toString(),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 16.0,
+                                fontSize: 1.273 * SizeConfig.textMultiplier!,
                               ),
                             ),
                           ],
