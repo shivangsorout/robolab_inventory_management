@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
+import 'package:rim/size_config.dart';
 
 class ConfirmAlertMessage extends StatelessWidget {
   final String confirmingMessage;
@@ -16,11 +17,11 @@ class ConfirmAlertMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
+      title: Text(
         'Are you sure?',
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 45.0,
+          fontSize: 4.21 * SizeConfig.textMultiplier!,
           color: Colors.black,
           fontWeight: FontWeight.w500,
           backgroundColor: Colors.white,
@@ -29,25 +30,25 @@ class ConfirmAlertMessage extends StatelessWidget {
       content: Text(
         confirmingMessage,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 22.0,
-          color: Color(0xff666666),
+        style: TextStyle(
+          fontSize: 1.762 * SizeConfig.textMultiplier!,
+          color: const Color(0xff666666),
           backgroundColor: Colors.white,
         ),
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(
-            left: 15.0,
-            right: 15.0,
+          padding: EdgeInsets.only(
+            left: 3.05 * SizeConfig.widthMultiplier!,
+            right: 3.05 * SizeConfig.widthMultiplier!,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                  top: 5.0,
-                  bottom: 15.0,
+                padding: EdgeInsets.only(
+                  top: 0.489 * SizeConfig.heightMultiplier!,
+                  bottom: 1.469 * SizeConfig.heightMultiplier!,
                 ),
                 child: CustomButton(
                   backgroundColor: const Color(0xff5db075),
@@ -56,9 +57,9 @@ class ConfirmAlertMessage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                  top: 5.0,
-                  bottom: 15.0,
+                padding: EdgeInsets.only(
+                  top: 0.489 * SizeConfig.heightMultiplier!,
+                  bottom: 1.469 * SizeConfig.heightMultiplier!,
                 ),
                 child: CustomButton(
                   backgroundColor: const Color(0xff5db075),
@@ -70,9 +71,9 @@ class ConfirmAlertMessage extends StatelessWidget {
           ),
         )
       ],
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 50.0,
-        vertical: 20.0,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 10.18 * SizeConfig.widthMultiplier!,
+        vertical: 1.958 * SizeConfig.heightMultiplier!,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),

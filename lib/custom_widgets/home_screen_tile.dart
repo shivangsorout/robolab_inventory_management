@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rim/size_config.dart';
 
 class HomeScreenTile extends StatelessWidget {
   final String imageAddress;
@@ -20,21 +21,22 @@ class HomeScreenTile extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(10.0),
             onTap: onPress,
-            child: SizedBox.square(
-              dimension: 150.0,
+            child: SizedBox(
+              height: 14.7 * SizeConfig.heightMultiplier!,
+              width: 30.54 * SizeConfig.widthMultiplier!,
               child: Image.asset(
                 imageAddress,
-                scale: 0.8,
+                scale: 0.9,
               ),
             ),
           ),
         ),
-        const SizedBox(
-          height: 10.0,
+        SizedBox(
+          height: 1 * SizeConfig.heightMultiplier!,
         ),
         Text(
           tileName,
-          style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 1.76 * SizeConfig.textMultiplier!, fontWeight: FontWeight.w500),
         )
       ],
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/screens/manager_signin_screen.dart';
+import 'package:rim/size_config.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const String id = 'welcome_screen';
@@ -12,13 +13,23 @@ class WelcomeScreen extends StatelessWidget {
       backgroundColor: const Color(0xffffffff),
       body: SafeArea(
         child: Padding(
-          padding: kPaddingScreens,
+          padding: EdgeInsets.symmetric(
+            horizontal: 4 * SizeConfig.widthMultiplier!,
+            vertical: 2 * SizeConfig.heightMultiplier!,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Text('Robolab Management System',
-                  textAlign: TextAlign.center, style: kTitleTextStyle),
+              Text(
+                'Robolab Management System',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: SizeConfig.textMultiplier! * 4,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -31,23 +42,29 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 4 * SizeConfig.widthMultiplier!,
+                  vertical: 2 * SizeConfig.heightMultiplier!,
+                ),
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 40.0, bottom: 30.0),
+                      padding: EdgeInsets.only(
+                        top: 4 * SizeConfig.heightMultiplier!,
+                        bottom: 3 * SizeConfig.heightMultiplier!,
+                      ),
                       child: Image.asset(
                         'assets/images/robot.png',
-                        scale: 0.8,
+                        scale: 0.10677 * SizeConfig.heightMultiplier!,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Welcome to the Cluster Innovation Centre Robolab Management App. A system for students to easily access the robotic components from lab.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 25.0,
+                        fontSize: 1.9 * SizeConfig.heightMultiplier!,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xff666666),
+                        color: const Color(0xff666666),
                       ),
                     ),
                   ],

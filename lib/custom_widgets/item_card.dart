@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rim/custom_widgets/component_details_tile.dart';
+import 'package:rim/size_config.dart';
 
 class ItemCard extends StatefulWidget {
   final Function(int) onDeleted;
@@ -43,7 +44,10 @@ class _ItemCardState extends State<ItemCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.symmetric(
+        vertical: 1 * SizeConfig.heightMultiplier!,
+        horizontal: 2.036 * SizeConfig.widthMultiplier!,
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -56,21 +60,29 @@ class _ItemCardState extends State<ItemCard> {
             ),
           ],
         ),
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(
+          vertical: 1.958 * SizeConfig.heightMultiplier!,
+          horizontal: 4.07 * SizeConfig.widthMultiplier!,
+        ),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(((widget.index!) + 1).toString() + '.'),
+                Text(
+                  ((widget.index!) + 1).toString() + '.',
+                  style: TextStyle(
+                    fontSize: 1.371 * SizeConfig.textMultiplier!,
+                  )
+                ),
                 GestureDetector(
                   onTap: () {
                     widget.onDeleted(widget.index!);
                   },
-                  child: const Icon(
+                  child: Icon(
                     Icons.delete,
-                    color: Color(0xff5db075),
-                    size: 30.0,
+                    color: const Color(0xff5db075),
+                    size: 2.938 * SizeConfig.heightMultiplier!,
                   ),
                 ),
               ],
@@ -112,13 +124,17 @@ class _ItemCardState extends State<ItemCard> {
             ),
             if (visibility)
               Padding(
-                padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                padding: EdgeInsets.only(
+                  top: 1 * SizeConfig.heightMultiplier!,
+                  left: 2.036 * SizeConfig.widthMultiplier!,
+                  right: 2.036 * SizeConfig.widthMultiplier!,
+                ),
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
                     text,
                     style: TextStyle(
+                      fontSize: 1.273 * SizeConfig.textMultiplier!,
                       color: notifyingTextColor,
                     ),
                   ),

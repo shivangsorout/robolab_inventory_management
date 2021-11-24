@@ -1,14 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rim/models/available_items.dart';
+import 'package:rim/size_config.dart';
 
-const TextStyle kTitleTextStyle = TextStyle(
+TextStyle kTitleTextStyle = TextStyle(
   color: Colors.black,
-  fontSize: 50.0,
+  fontSize: SizeConfig.textMultiplier! * 4,
   fontWeight: FontWeight.w600,
 );
 
-const EdgeInsetsGeometry kPaddingScreens = EdgeInsets.all(20.0);
+EdgeInsetsGeometry kPaddingScreens = EdgeInsets.symmetric(
+  horizontal: 4 * SizeConfig.widthMultiplier!,
+  vertical: 2 * SizeConfig.heightMultiplier!,
+);
 
 final OutlineInputBorder kOutlineBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(10),
@@ -29,19 +33,19 @@ String getCurrentDate() {
   return formattedDate.toString();
 }
 
-  void getAvailableItems(List<AvailableItems> list) async {
-    FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    var snapshots = _firestore.collection('components').snapshots();
-    await for (var snapshot in snapshots) {
-      for (var component in snapshot.docs) {
-        list.add(AvailableItems(
-          quantityIssued: component.get('quantity_issued').toString(),
-          componentId: component.get('id'),
-          quantityAvailable: component.get('quantity_available').toString(),
-          docId: component.id,
-        ));
-        // for (var i in availableItemsList)
-        //   print(i.componentId + ':' + i.quantity);
-      }
+void getAvailableItems(List<AvailableItems> list) async {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  var snapshots = _firestore.collection('components').snapshots();
+  await for (var snapshot in snapshots) {
+    for (var component in snapshot.docs) {
+      list.add(AvailableItems(
+        quantityIssued: component.get('quantity_issued').toString(),
+        componentId: component.get('id'),
+        quantityAvailable: component.get('quantity_available').toString(),
+        docId: component.id,
+      ));
+      // for (var i in availableItemsList)
+      //   print(i.componentId + ':' + i.quantity);
     }
   }
+}

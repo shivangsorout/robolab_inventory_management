@@ -9,6 +9,7 @@ import 'package:rim/screens/manager_signin_screen.dart';
 import 'package:rim/screens/return_items_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 import 'package:rim/screens/welcome_screen.dart';
+import 'package:rim/size_config.dart';
 
 User? loggedinUser;
 
@@ -46,7 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: kPaddingScreens,
+          padding: EdgeInsets.symmetric(
+            horizontal: 4 * SizeConfig.widthMultiplier!,
+            vertical: 2 * SizeConfig.heightMultiplier!,
+          ),
           child: Column(
             children: [
               ListTile(
@@ -60,23 +64,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   icon: const Icon(Icons.logout),
                 ),
-                title: const Text(
+                title: Text(
                   'Hello Vinay!',
                   textAlign: TextAlign.center,
-                  style: kTitleTextStyle,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: SizeConfig.textMultiplier! * 4,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 trailing: const CircleAvatar(
                   backgroundColor: Colors.blue,
                 ),
               ),
-              const SizedBox(
-                height: 60.0,
+              SizedBox(
+                height: 5.7 * SizeConfig.heightMultiplier!,
               ),
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 30.0,
-                  crossAxisSpacing: 15.0,
+                  mainAxisSpacing: 2.8 * SizeConfig.heightMultiplier!,
+                  crossAxisSpacing: 2.8 * SizeConfig.widthMultiplier!,
                   children: [
                     HomeScreenTile(
                       imageAddress: 'assets/images/stock.png',
