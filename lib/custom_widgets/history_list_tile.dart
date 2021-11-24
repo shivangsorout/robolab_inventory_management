@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rim/size_config.dart';
 
 class HistoryListTile extends StatelessWidget {
   final String studentId;
@@ -18,82 +19,86 @@ class HistoryListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20.0,
-        vertical: 15.0,
+      padding: EdgeInsets.symmetric(
+        horizontal: 4.07 * SizeConfig.widthMultiplier!,
+        vertical: 1.469 * SizeConfig.heightMultiplier!,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.036 * SizeConfig.widthMultiplier!,
+        ),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
+              padding: EdgeInsets.only(
+                bottom: 1 * SizeConfig.heightMultiplier!,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     studentId,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
-                      fontSize: 25,
+                      fontSize: 2.252 * SizeConfig.textMultiplier!,
                     ),
                   ),
                   Text(
                     componentId,
-                    style: const TextStyle(
-                      fontSize: 20.0,
-                      color: Color(0xffbdbdbd),
+                    style: TextStyle(
+                      fontSize: 1.762 * SizeConfig.textMultiplier!,
+                      color: const Color(0xffbdbdbd),
                     ),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 5.0,
+              padding: EdgeInsets.symmetric(
+                vertical: 0.489 * SizeConfig.heightMultiplier!,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      const Text(
+                      Text(
                         'Issue Date',
                         style: TextStyle(
-                          color: Color(0xff4b9460),
-                          fontSize: 16.0,
+                          color: const Color(0xff4b9460),
+                          fontSize: 1.371 * SizeConfig.textMultiplier!,
                         ),
                       ),
-                      const SizedBox(
-                        width: 5.0,
+                      SizedBox(
+                        width: 1 * SizeConfig.widthMultiplier!,
                       ),
                       Text(
                         issueDate,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.grey,
-                          fontSize: 16.0,
+                          fontSize: 1.273 * SizeConfig.textMultiplier!,
                         ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      const Text(
+                      Text(
                         'Quantity Issued',
                         style: TextStyle(
-                          color: Color(0xff4b9460),
-                          fontSize: 16.0,
+                          color: const Color(0xff4b9460),
+                          fontSize: 1.371 * SizeConfig.textMultiplier!,
                         ),
                       ),
-                      const SizedBox(
-                        width: 5.0,
+                      SizedBox(
+                        width: 1 * SizeConfig.widthMultiplier!,
                       ),
                       Text(
                         quantityIssued.toString(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.grey,
-                          fontSize: 16.0,
+                          fontSize: 1.273 * SizeConfig.textMultiplier!,
                         ),
                       ),
                     ],
@@ -103,21 +108,21 @@ class HistoryListTile extends StatelessWidget {
             ),
             Row(
               children: [
-                const Text(
+                Text(
                   'Return Date',
                   style: TextStyle(
-                    color: Color(0xff4b9460),
-                    fontSize: 16.0,
+                    color: const Color(0xff4b9460),
+                    fontSize: 1.371 * SizeConfig.textMultiplier!,
                   ),
                 ),
-                const SizedBox(
-                  width: 5.0,
+                SizedBox(
+                  width: 1 * SizeConfig.widthMultiplier!,
                 ),
                 Text(
                   returnDate,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 16.0,
+                    fontSize: 1.273 * SizeConfig.textMultiplier!,
                   ),
                 ),
               ],

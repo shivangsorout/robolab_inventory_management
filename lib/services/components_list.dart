@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rim/custom_widgets/stock_list_tile.dart';
+import 'package:rim/size_config.dart';
 
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -29,10 +30,10 @@ class ComponentsList extends StatelessWidget {
             itemBuilder: (context, index) {
               return stocksList[index];
             },
-            separatorBuilder: (context, index) => const Divider(
+            separatorBuilder: (context, index) => Divider(
               thickness: 1.5,
-              indent: 27.0,
-              endIndent: 27.0,
+              indent: 5.498 * SizeConfig.widthMultiplier!,
+              endIndent: 5.498 * SizeConfig.widthMultiplier!,
             ),
             itemCount: stocksList.length,
           ),

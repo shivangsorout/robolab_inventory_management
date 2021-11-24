@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/screens/home_screen.dart';
+import 'package:rim/size_config.dart';
 
 class ManagerSignInScreen extends StatefulWidget {
   static const String id = 'manager_signin_screen';
@@ -29,31 +30,41 @@ class _ManagerSignInScreenState extends State<ManagerSignInScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: kPaddingScreens,
+          padding: EdgeInsets.symmetric(
+            horizontal: 4 * SizeConfig.widthMultiplier!,
+            vertical: 2 * SizeConfig.heightMultiplier!,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
+              Text(
                 'Manager Sign In',
                 textAlign: TextAlign.center,
-                style: kTitleTextStyle,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: SizeConfig.textMultiplier! * 4,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              const SizedBox(
-                height: 130.0,
+              SizedBox(
+                height: 12 * SizeConfig.heightMultiplier!,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextField(
+                    style: TextStyle(
+                      fontSize: 1.4 * SizeConfig.textMultiplier!,
+                    ),
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (val) {
                       _email = val;
                     },
                     decoration: InputDecoration(
                       hintText: 'Email',
-                      hintStyle: const TextStyle(
-                        fontSize: 17.0,
-                        color: Color(0xffbdbdbd),
+                      hintStyle: TextStyle(
+                        fontSize: 1.4 * SizeConfig.textMultiplier!,
+                        color: const Color(0xffbdbdbd),
                       ),
                       filled: true,
                       fillColor: const Color(0xfff6f6f6),
@@ -62,10 +73,13 @@ class _ManagerSignInScreenState extends State<ManagerSignInScreen> {
                       focusedBorder: kOutlineBorder,
                     ),
                   ),
-                  const SizedBox(
-                    height: 20.0,
+                  SizedBox(
+                    height: 1.6 * SizeConfig.heightMultiplier!,
                   ),
                   TextField(
+                    style: TextStyle(
+                      fontSize: 1.4 * SizeConfig.textMultiplier!,
+                    ),
                     obscuringCharacter: '*',
                     obscureText: _obscureText,
                     onChanged: (val) {
@@ -73,9 +87,9 @@ class _ManagerSignInScreenState extends State<ManagerSignInScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: 'Password',
-                      hintStyle: const TextStyle(
-                        fontSize: 17.0,
-                        color: Color(0xffbdbdbd),
+                      hintStyle: TextStyle(
+                        fontSize: 1.4 * SizeConfig.textMultiplier!,
+                        color: const Color(0xffbdbdbd),
                       ),
                       filled: true,
                       fillColor: const Color(0xfff6f6f6),
@@ -86,9 +100,9 @@ class _ManagerSignInScreenState extends State<ManagerSignInScreen> {
                         onTap: _toggleObscure,
                         child: Text(
                           _obscureText ? 'Show' : 'Hide',
-                          style: const TextStyle(
-                            color: Color(0xff5db075),
-                            fontSize: 17,
+                          style: TextStyle(
+                            color: const Color(0xff5db075),
+                            fontSize: 1.4 * SizeConfig.textMultiplier!,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -99,19 +113,19 @@ class _ManagerSignInScreenState extends State<ManagerSignInScreen> {
                     padding: const EdgeInsets.all(20.0),
                     child: GestureDetector(
                       onTap: () {},
-                      child: const Text(
+                      child: Text(
                         'Forgot your Password?',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Color(0xff5db075),
-                          fontSize: 18,
+                          color: const Color(0xff5db075),
+                          fontSize: 1.5 * SizeConfig.textMultiplier!,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10.0,
+                  SizedBox(
+                    height: 1 * SizeConfig.heightMultiplier!,
                   ),
                   CustomButton(
                     backgroundColor: const Color(0xff5db075),
