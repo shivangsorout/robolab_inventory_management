@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rim/size_config.dart';
 
 class CustomButton extends StatelessWidget {
   final Color backgroundColor;
@@ -14,7 +15,10 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: 4 * SizeConfig.widthMultiplier!,
+        vertical: 2 * SizeConfig.heightMultiplier!,
+      ),
       onPressed: onPressed,
       color: backgroundColor,
       shape: RoundedRectangleBorder(
@@ -22,8 +26,8 @@ class CustomButton extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: const TextStyle(
-          fontSize: 20.0,
+        style: TextStyle(
+          fontSize: 1.6 * SizeConfig.heightMultiplier!,
           color: Colors.white,
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:rim/custom_widgets/alert_message.dart';
 import 'package:rim/custom_widgets/component_details_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/screens/update_stock_screen.dart';
+import 'package:rim/size_config.dart';
 
 FirebaseFirestore? _firestore = FirebaseFirestore.instance;
 
@@ -70,7 +71,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: kPaddingScreens,
+          padding: EdgeInsets.symmetric(
+            horizontal: 4 * SizeConfig.widthMultiplier!,
+            vertical: 2 * SizeConfig.heightMultiplier!,
+          ),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -82,15 +86,19 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       Navigator.pop(context);
                     },
                   ),
-                  title: const Text(
+                  title: Text(
                     'Edit Item',
-                    style: kTitleTextStyle,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: SizeConfig.textMultiplier! * 4,
+                      fontWeight: FontWeight.w600,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   trailing: const Text(''),
                 ),
-                const SizedBox(
-                  height: 60.0,
+                SizedBox(
+                  height: 5.876 * SizeConfig.heightMultiplier!,
                 ),
                 Column(
                   children: [
@@ -158,8 +166,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
                             : null),
                   ],
                 ),
-                const SizedBox(
-                  height: 80.0,
+                SizedBox(
+                  height: 7.835 * SizeConfig.heightMultiplier!,
                 ),
                 CustomButton(
                   backgroundColor: const Color(0xff5db075),

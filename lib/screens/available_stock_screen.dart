@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/services/components_list.dart';
-
+import 'package:rim/size_config.dart';
 
 class AvailableStockScreen extends StatefulWidget {
   static const String id = 'available_stock_screen';
@@ -17,7 +17,10 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: kPaddingScreens,
+          padding: EdgeInsets.symmetric(
+            horizontal: 4 * SizeConfig.widthMultiplier!,
+            vertical: 2 * SizeConfig.heightMultiplier!,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -28,22 +31,26 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
                     Navigator.pop(context);
                   },
                 ),
-                title: const Text(
+                title: Text(
                   'Available Stock',
                   textAlign: TextAlign.center,
-                  style: kTitleTextStyle,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: SizeConfig.textMultiplier! * 4,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 trailing: const Text(' '),
               ),
-              const SizedBox(
-                height: 30.0,
+              SizedBox(
+                height: 2.94 * SizeConfig.heightMultiplier!,
               ),
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Search',
-                  hintStyle: const TextStyle(
-                    fontSize: 17.0,
-                    color: Color(0xffbdbdbd),
+                  hintStyle: TextStyle(
+                    fontSize: 1.5 * SizeConfig.textMultiplier!,
+                    color: const Color(0xffbdbdbd),
                   ),
                   filled: true,
                   fillColor: const Color(0xfff6f6f6),
@@ -52,8 +59,8 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
                   focusedBorder: kRoundedBorder,
                 ),
               ),
-              const SizedBox(
-                height: 10.0,
+              SizedBox(
+                height: 1 * SizeConfig.heightMultiplier!,
               ),
               const Divider(
                 thickness: 1.5,

@@ -1,6 +1,7 @@
 import 'package:rim/custom_widgets/return_item_list_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rim/size_config.dart';
 
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -32,10 +33,10 @@ class IssuedItemsList extends StatelessWidget {
             itemBuilder: (context, index) {
               return itemsList[index];
             },
-            separatorBuilder: (context, index) => const Divider(
+            separatorBuilder: (context, index) => Divider(
               thickness: 1.5,
-              indent: 50.0,
-              endIndent: 27.0,
+              indent: 10.18 * SizeConfig.widthMultiplier!,
+              endIndent: 5.498 * SizeConfig.widthMultiplier!,
             ),
             itemCount: itemsList.length,
           ),
