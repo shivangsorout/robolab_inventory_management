@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
-import 'package:rim/custom_widgets/return_item_list_tile.dart';
 import 'package:rim/services/issued_items_list.dart';
 import 'package:rim/size_config.dart';
 
