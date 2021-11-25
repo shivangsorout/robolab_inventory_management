@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/home_screen_tile.dart';
 import 'package:rim/screens/available_stock_screen.dart';
 import 'package:rim/screens/history_screen.dart';
 import 'package:rim/screens/issue_items_screen.dart';
-import 'package:rim/screens/manager_signin_screen.dart';
 import 'package:rim/screens/return_items_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 import 'package:rim/screens/welcome_screen.dart';
