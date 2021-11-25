@@ -504,6 +504,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                               notValidatedItemList.isEmpty &&
                               notEnabledItemList.isEmpty &&
                               quantityExceedItemList.isEmpty &&
+                              itemDetailsList.isNotEmpty &&
                               !valErrorStudentId) {
                             for (var item in itemDetailsList) {
                               for (var component in availableItemsList) {
@@ -549,6 +550,16 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                             ).then(
                               (value) {
                                 Navigator.pop(context);
+                              },
+                            );
+                          } else if (itemDetailsList.isEmpty) {
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return const AlertMessage(
+                                  message:
+                                      'No items issued! Please Issue at least one item.',
+                                );
                               },
                             );
                           } else if (!duplicateItemList.isEmpty) {
