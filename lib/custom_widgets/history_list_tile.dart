@@ -8,13 +8,14 @@ class HistoryListTile extends StatelessWidget {
   final int quantityIssued;
   final String returnDate;
 
-  HistoryListTile({
+  const HistoryListTile({
+    Key? key,
     required this.studentId,
     required this.componentId,
     required this.issueDate,
     required this.quantityIssued,
     required this.returnDate,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -11,13 +11,13 @@ import 'package:rim/screens/manager_signin_screen.dart';
 import 'package:rim/screens/return_items_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 import 'package:rim/screens/welcome_screen.dart';
-import 'package:rim/services/available_item_service.dart';
+import 'package:rim/services/app_service.dart';
 import 'package:rim/size_config.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
-  runApp(RobolabManagement());
+  runApp(const RobolabManagement());
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.white,
@@ -30,10 +30,12 @@ void main() {
 }
 
 class RobolabManagement extends StatelessWidget {
+  const RobolabManagement({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AvailableItemsList>(
-      create: (context) => AvailableItemsList(),
+    return ChangeNotifierProvider<AppService>(
+      create: (context) => AppService(),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return OrientationBuilder(
@@ -47,7 +49,7 @@ class RobolabManagement extends StatelessWidget {
                   HomeScreen.id: (context) => HomeScreen(),
                   AvailableStockScreen.id: (context) => AvailableStockScreen(),
                   UpdateStockScreen.id: (context) => UpdateStockScreen(),
-                  AddItemScreen.id: (context) => AddItemScreen(),
+                  AddItemScreen.id: (context) => const AddItemScreen(),
                   IssueItemsScreen.id: (context) => IssueItemsScreen(),
                   ReturnItemsScreen.id: (context) => ReturnItemsScreen(),
                   HistoryScreen.id: (context) => HistoryScreen(),

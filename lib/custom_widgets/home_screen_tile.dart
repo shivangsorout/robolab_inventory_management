@@ -5,11 +5,12 @@ class HomeScreenTile extends StatelessWidget {
   final String imageAddress;
   final String tileName;
   final Function()? onPress;
-  HomeScreenTile({
+  const HomeScreenTile({
+    Key? key,
     required this.imageAddress,
     required this.tileName,
     required this.onPress,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,9 @@ class HomeScreenTile extends StatelessWidget {
         ),
         Text(
           tileName,
-          style: TextStyle(fontSize: 1.76 * SizeConfig.textMultiplier!, fontWeight: FontWeight.w500),
+          style: TextStyle(
+              fontSize: 1.76 * SizeConfig.textMultiplier!,
+              fontWeight: FontWeight.w500),
         )
       ],
     );
