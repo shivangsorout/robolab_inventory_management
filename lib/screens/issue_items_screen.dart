@@ -464,7 +464,6 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                         backgroundColor: const Color(0xff5db075),
                         text: 'Issue Items',
                         onPressed: () {
-                          provider!.getAvailableItems();
                           currentDate = getCurrentDate();
                           setState(() {
                             studentId == '' || studentId == null
@@ -567,6 +566,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                 },
                               ).then(
                                 (value) {
+                                  provider!.getAvailableItems();
                                   Navigator.pop(context);
                                 },
                               );

@@ -12,9 +12,18 @@ class AppService extends ChangeNotifier {
     return UnmodifiableListView(_itemsList);
   }
 
-  void getAvailableItems() async {
+  void emptyItemsList() {
+    _itemsList.clear();
+    notifyListeners();
+  }
+
+  void getAvailableItems({bool clearList = true}) async {
+    if (clearList) {
+      _itemsList.clear();
+    }
     var snapshots = _firestore.collection('components').snapshots();
     await for (var snapshot in snapshots) {
+      _itemsList.clear();
       for (var component in snapshot.docs) {
         _itemsList.add(AvailableItems(
           quantityIssued: component.get('quantity_issued').toString(),
@@ -22,8 +31,8 @@ class AppService extends ChangeNotifier {
           quantityAvailable: component.get('quantity_available').toString(),
           docId: component.id,
         ));
-        notifyListeners();
       }
+      notifyListeners();
     }
   }
 }

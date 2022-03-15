@@ -38,8 +38,8 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      var provider = Provider.of<AppService>(context, listen: false);
-      provider.getAvailableItems();
+      provider = Provider.of<AppService>(context, listen: false);
+      provider!.getAvailableItems();
     });
     super.initState();
   }
