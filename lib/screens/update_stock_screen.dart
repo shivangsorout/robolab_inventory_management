@@ -4,8 +4,15 @@ import 'package:rim/screens/add_item_screen.dart';
 import 'package:rim/services/components_list.dart';
 import 'package:rim/size_config.dart';
 
-class UpdateStockScreen extends StatelessWidget {
+class UpdateStockScreen extends StatefulWidget {
   static const String id = 'update_stock_screen';
+
+  @override
+  State<UpdateStockScreen> createState() => _UpdateStockScreenState();
+}
+
+class _UpdateStockScreenState extends State<UpdateStockScreen> {
+  String searchText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +54,11 @@ class UpdateStockScreen extends StatelessWidget {
                 height: 2.94 * SizeConfig.heightMultiplier!,
               ),
               TextField(
+                onChanged: ((value) {
+                  setState(() {
+                    searchText = value.toLowerCase();
+                  });
+                }),
                 decoration: InputDecoration(
                   hintText: 'Search',
                   hintStyle: TextStyle(
@@ -66,7 +78,7 @@ class UpdateStockScreen extends StatelessWidget {
               const Divider(
                 thickness: 1.5,
               ),
-              ComponentsList(),
+              ComponentsList(searchText: searchText),
             ],
           ),
         ),

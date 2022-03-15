@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/alert_message.dart';
 import 'package:rim/custom_widgets/component_details_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
@@ -12,6 +11,8 @@ FirebaseFirestore? _firestore = FirebaseFirestore.instance;
 
 class AddItemScreen extends StatefulWidget {
   static const String id = 'add_item_screen';
+
+  const AddItemScreen({Key? key}) : super(key: key);
 
   @override
   State<AddItemScreen> createState() => _AddItemScreenState();
