@@ -31,6 +31,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   late TextEditingController studentIdController;
   String currentDate = '';
   AppService? provider;
+  bool keyboardVisible = false;
   Map<int, String> componentsAvailabilityState = {
     0: 'This component is available with max quantity of ',
     1: 'This component is not available at the moment.',
@@ -204,7 +205,16 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      if(MediaQuery.of(context).viewInsets.bottom != 0){
+        keyboardVisible = true;
+      }
+      else{
+        keyboardVisible = false;
+      }
+    });
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
@@ -313,6 +323,10 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                         itemCount: itemCardsList.length,
                       ),
                     ),
+                    if(keyboardVisible)
+                    SizedBox(
+                      height: MediaQuery.of(context).viewInsets.bottom - MediaQuery.of(context).viewInsets.bottom * 0.50,
+                    )
                   ],
                 ),
                 Column(

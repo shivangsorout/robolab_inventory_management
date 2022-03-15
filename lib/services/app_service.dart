@@ -29,6 +29,7 @@ class AppService extends ChangeNotifier {
           quantityIssued: component.get('quantity_issued').toString(),
           componentId: component.get('id'),
           quantityAvailable: component.get('quantity_available').toString(),
+          componentName: component.get('name'),
           docId: component.id,
         ));
       }

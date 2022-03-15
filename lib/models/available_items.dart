@@ -4,10 +4,13 @@ class AvailableItems {
   String quantityAvailable = '';
   String docId = '';
   String quantityIssued = '';
+  String componentName = '';
+
   AvailableItems({
     required this.componentId,
     required this.quantityAvailable,
     required this.docId,
     required this.quantityIssued,
+    required this.componentName,
   });
 }
