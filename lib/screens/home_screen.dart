@@ -7,6 +7,7 @@ import 'package:rim/screens/issue_items_screen.dart';
 import 'package:rim/screens/return_items_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';
 import 'package:rim/screens/welcome_screen.dart';
+import 'package:rim/services/shared_preferences_repository.dart';
 import 'package:rim/size_config.dart';
 
 User? loggedinUser;
@@ -55,15 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: IconButton(
                   onPressed: () {
                     _auth.signOut();
-                    Navigator.popUntil(
+                    SharedPreferencesRepository().clearAll();
+                    Navigator.pushReplacementNamed(
                       context,
-                      ModalRoute.withName(WelcomeScreen.id),
+                      WelcomeScreen.id,
                     );
                   },
                   icon: const Icon(Icons.logout),
                 ),
                 title: Text(
-                  'Hello Vinay!',
+                  'Hello Autonomi!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,

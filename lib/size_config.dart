@@ -36,8 +36,5 @@ class SizeConfig {
     imageSizeMultiplier = _blockWidth;
     heightMultiplier = _blockHeight;
     widthMultiplier = _blockWidth;
-
-    print('Height Multiplier: '+ textMultiplier.toString());
-    print('Width Multiplier: '+ widthMultiplier.toString());
   }
 }
