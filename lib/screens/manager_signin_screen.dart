@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/screens/home_screen.dart';
+import 'package:rim/services/shared_preferences_repository.dart';
 import 'package:rim/size_config.dart';
 
 class ManagerSignInScreen extends StatefulWidget {
@@ -136,6 +137,13 @@ class _ManagerSignInScreenState extends State<ManagerSignInScreen> {
                             await _auth.signInWithEmailAndPassword(
                                 email: _email, password: _password);
                         if (signedInUser != null) {
+                          _auth.currentUser!.getIdToken().then((value) {
+                            SharedPreferencesRepository().save(
+                                SharedPreferencesRepository.accessTokenKey,
+                                value);
+                          });
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                           Navigator.pushNamed(context, HomeScreen.id);
                         }
                       } catch (e) {

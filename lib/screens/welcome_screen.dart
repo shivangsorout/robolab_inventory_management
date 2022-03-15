@@ -1,11 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
+import 'package:rim/screens/home_screen.dart';
 import 'package:rim/screens/manager_signin_screen.dart';
+import 'package:rim/services/shared_preferences_repository.dart';
 import 'package:rim/size_config.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  bool isLoading = true;
+  bool isLoggedIn = false;
+  final SharedPreferencesRepository _sharedPreferencesRepository =
+      SharedPreferencesRepository();
+
+  void checkLogInStatus() {
+    setState(() {
+      isLoading = true;
+    });
+    _sharedPreferencesRepository
+        .get(SharedPreferencesRepository.accessTokenKey)
+        .then(
+      (value) {
+        String? token = value;
+        if (token != '' && token != null) {
+          setState(() {
+            isLoggedIn = true;
+          });
+        } else {
+          setState(() {
+            isLoggedIn = false;
+          });
+        }
+        if (isLoggedIn) {
+          Future.delayed(const Duration(seconds: 2), () {
+            Navigator.popAndPushNamed(context, HomeScreen.id);
+          });
+        }
+        Future.delayed(const Duration(seconds: 3), () {
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+            });
+          }
+        });
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    checkLogInStatus();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +70,6 @@ class WelcomeScreen extends StatelessWidget {
             vertical: 2 * SizeConfig.heightMultiplier!,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
@@ -70,13 +121,25 @@ class WelcomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              CustomButton(
-                text: 'Manager Sign In',
-                backgroundColor: Colors.black,
-                onPressed: () {
-                  Navigator.pushNamed(context, ManagerSignInScreen.id);
-                },
-              ),
+              isLoading
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.black,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : SizedBox(
+                      width: double.maxFinite,
+                      child: CustomButton(
+                        text: 'Manager Sign In',
+                        backgroundColor: Colors.black,
+                        onPressed: () {
+                          Navigator.pushNamed(context, ManagerSignInScreen.id);
+                        },
+                      ),
+                    ),
             ],
           ),
         ),
