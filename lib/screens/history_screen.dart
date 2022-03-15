@@ -12,6 +12,8 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  String searchText = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +49,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 height: 2.938 * SizeConfig.heightMultiplier!,
               ),
               TextField(
+                onChanged: (value) {
+                  setState(() {
+                    searchText = value.toLowerCase();
+                  });
+                },
                 decoration: InputDecoration(
                   hintText: 'Search',
                   hintStyle: TextStyle(
@@ -66,7 +73,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               const Divider(
                 thickness: 1.5,
               ),
-              TransactionsList(),
+              TransactionsList(searchText: searchText),
             ],
           ),
         ),
