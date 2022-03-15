@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:provider/provider.dart';
+import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/component_details_tile.dart';
+import 'package:rim/models/available_items.dart';
+import 'package:rim/services/app_service.dart';
 import 'package:rim/size_config.dart';
 
 class ItemCard extends StatefulWidget {
@@ -41,6 +46,23 @@ class _ItemCardState extends State<ItemCard> {
   bool visibility = false;
   String text = '';
   Color notifyingTextColor = Colors.white;
+  AppService? provider;
+
+  @override
+  void initState() {
+    provider = Provider.of(context, listen: false);
+    super.initState();
+  }
+
+  List<AvailableItems> getSuggestions(String query) {
+    List<AvailableItems> matches = [];
+    matches.addAll(provider!.availableItemsList);
+
+    matches.retainWhere(
+        (s) => s.componentName.toLowerCase().contains(query.toLowerCase()));
+    return matches;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -69,12 +91,10 @@ class _ItemCardState extends State<ItemCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  ((widget.index!) + 1).toString() + '.',
-                  style: TextStyle(
-                    fontSize: 1.371 * SizeConfig.textMultiplier!,
-                  )
-                ),
+                Text(((widget.index!) + 1).toString() + '.',
+                    style: TextStyle(
+                      fontSize: 1.371 * SizeConfig.textMultiplier!,
+                    )),
                 GestureDetector(
                   onTap: () {
                     widget.onDeleted(widget.index!);
@@ -87,21 +107,112 @@ class _ItemCardState extends State<ItemCard> {
                 ),
               ],
             ),
-            ComponentDetailsTile(
-              keyboardType: TextInputType.text,
-              tileName: 'Component ID',
-              onChanged: (val) {
-                widget.onChangedComponentId(val, widget.index!);
-                setState(() {
-                  notifyingTextColor =
-                      widget.notifyingTextColor(widget.index!)!;
-                  visibility = widget.visibilityText(widget.index!);
-                  text = widget.notifyingText(widget.index!)!;
-                });
-              },
-              errorText: widget.errorTextComponentId(widget.index!),
-              controller: widget.componentIdController,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Component ID',
+                    style: TextStyle(
+                      color: const Color(0xff666666),
+                      fontSize: 1.52 * SizeConfig.heightMultiplier!,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 1.469 * SizeConfig.heightMultiplier!,
+                  ),
+                  TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(
+                        fontSize: 1.33 * SizeConfig.heightMultiplier!,
+                      ),
+                      controller: widget.componentIdController,
+                      onChanged: (val) {
+                        widget.onChangedComponentId(val, widget.index!);
+                        setState(() {
+                          notifyingTextColor =
+                              widget.notifyingTextColor(widget.index!)!;
+                          visibility = widget.visibilityText(widget.index!);
+                          text = widget.notifyingText(widget.index!)!;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        errorText: widget.errorTextComponentId(widget.index!),
+                        hintText: 'Component ID',
+                        hintStyle: TextStyle(
+                          fontSize: 1.469 * SizeConfig.heightMultiplier!,
+                          color: const Color(0xffbdbdbd),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xfff6f6f6),
+                        border: kRoundedBorder,
+                        enabledBorder: kRoundedBorder,
+                        focusedBorder: kRoundedBorder,
+                      ),
+                    ),
+                    suggestionsCallback: (value) {
+                      return getSuggestions(value);
+                    },
+                    itemBuilder: (context, AvailableItems suggestion) {
+                      return ListTile(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                        title: Text(suggestion.componentName),
+                      );
+                    },
+                    onSuggestionSelected: (AvailableItems suggestion) {
+                      widget.componentIdController!.text = suggestion.componentId;
+                      widget.onChangedComponentId(suggestion.componentId, widget.index!);
+                        setState(() {
+                          notifyingTextColor =
+                              widget.notifyingTextColor(widget.index!)!;
+                          visibility = widget.visibilityText(widget.index!);
+                          text = widget.notifyingText(widget.index!)!;
+                        });
+                    },
+                  ),
+                  // TextField(
+                  // style: TextStyle(
+                  //   fontSize: 1.33 * SizeConfig.heightMultiplier!,
+                  // ),
+                  //   inputFormatters: inputFormatters ?? [],
+                  //   keyboardType: keyboardType,
+                  //   enabled: textFieldEnabled ?? true,
+                  //   controller: controller,
+                  //   onChanged: onChanged,
+                  //   decoration: InputDecoration(
+                  //     errorText: errorText,
+                  //     hintText: tileName,
+                  //     hintStyle: TextStyle(
+                  //       fontSize: 1.469 * SizeConfig.heightMultiplier!,
+                  //       color: const Color(0xffbdbdbd),
+                  //     ),
+                  //     filled: true,
+                  //     fillColor: const Color(0xfff6f6f6),
+                  //     border: kRoundedBorder,
+                  //     enabledBorder: kRoundedBorder,
+                  //     focusedBorder: kRoundedBorder,
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
+            // ComponentDetailsTile(
+            //   keyboardType: TextInputType.text,
+            //   tileName: 'Component ID',
+            //   onChanged: (val) {
+            //     widget.onChangedComponentId(val, widget.index!);
+            //     setState(() {
+            //       notifyingTextColor =
+            //           widget.notifyingTextColor(widget.index!)!;
+            //       visibility = widget.visibilityText(widget.index!);
+            //       text = widget.notifyingText(widget.index!)!;
+            //     });
+            //   },
+            //   errorText: widget.errorTextComponentId(widget.index!),
+            //   controller: widget.componentIdController,
+            // ),
             ComponentDetailsTile(
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(
