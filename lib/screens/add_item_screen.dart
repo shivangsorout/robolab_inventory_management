@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rim/custom_widgets/alert_message.dart';
 import 'package:rim/custom_widgets/component_details_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/models/component.dart';
 import 'package:rim/screens/update_stock_screen.dart';
+import 'package:rim/services/app_service.dart';
 import 'package:rim/size_config.dart';
 
 FirebaseFirestore? _firestore = FirebaseFirestore.instance;
@@ -25,6 +27,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
   bool valErrorId = false;
   bool valErrorTotalQuantity = false;
   bool valErrorLocker = false;
+  bool idNotUnique = false;
+  AppService provider = AppService();
+
+  @override
+  void initState() {
+    provider = Provider.of(context, listen: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +99,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   ? valErrorId = true
                                   : valErrorId = false
                               : null;
+                          if(idNotUnique)
+                          idNotUnique = false;
                         });
                       },
-                      errorText:
-                          valErrorId ? 'Component Id can\'t be empty!' : null,
+                      errorText: valErrorId
+                          ? 'Component Id can\'t be empty!'
+                          : idNotUnique
+                              ? 'Please enter unique ID!'
+                              : null,
                     ),
                     ComponentDetailsTile(
                         keyboardType: TextInputType.number,
@@ -151,6 +166,22 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           ? valErrorTotalQuantity = true
                           : valErrorTotalQuantity = false;
                     });
+                    for (var item in provider.availableItemsList) {
+                      String id = item.componentId;
+                      if (id.contains('comp')) {
+                        id = id.replaceAll('comp', "");
+                      }
+                      setState(() {
+                        if (component.componentId == id) {
+                          idNotUnique = true;
+                        } else {
+                          idNotUnique = false;
+                        }
+                      });
+                      if(idNotUnique){
+                        break;
+                      }
+                    }
                     try {
                       if (component.componentId != null &&
                           component.locker != null &&
@@ -159,9 +190,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           component.componentId != '' &&
                           component.locker != '' &&
                           component.componentName != '' &&
-                          component.totalQuantity != '') {
+                          component.totalQuantity != '' &&
+                          !idNotUnique) {
                         _firestore?.collection('components').add({
-                          'id': component.componentId,
+                          'id': 'comp' + component.componentId!,
                           'locker_number': component.locker,
                           'name': component.componentName,
                           'total_quantity': int.parse(component.totalQuantity),

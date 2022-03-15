@@ -118,6 +118,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                           : null,
                     ),
                     ComponentDetailsTile(
+                        textFieldEnabled: false,
                         tileName: 'Component Id',
                         controller: componentIdController,
                         onChanged: (val) {
