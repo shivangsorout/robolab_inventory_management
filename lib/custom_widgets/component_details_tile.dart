@@ -10,9 +10,10 @@ class ComponentDetailsTile extends StatelessWidget {
   final TextEditingController? controller;
   final bool? textFieldEnabled;
   final TextInputType? keyboardType;
-  List<TextInputFormatter>? inputFormatters;
+  final List<TextInputFormatter>? inputFormatters;
 
-  ComponentDetailsTile({
+  const ComponentDetailsTile({
+    Key? key,
     required this.tileName,
     required this.onChanged,
     required this.errorText,
@@ -20,7 +21,7 @@ class ComponentDetailsTile extends StatelessWidget {
     this.textFieldEnabled,
     this.keyboardType,
     this.inputFormatters,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

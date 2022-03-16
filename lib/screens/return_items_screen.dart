@@ -3,9 +3,15 @@ import 'package:rim/constants.dart';
 import 'package:rim/services/issued_items_list.dart';
 import 'package:rim/size_config.dart';
 
-class ReturnItemsScreen extends StatelessWidget {
+class ReturnItemsScreen extends StatefulWidget {
   static const String id = 'return_items_screen';
 
+  @override
+  State<ReturnItemsScreen> createState() => _ReturnItemsScreenState();
+}
+
+class _ReturnItemsScreenState extends State<ReturnItemsScreen> {
+  String searchText = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +47,11 @@ class ReturnItemsScreen extends StatelessWidget {
                 height: 2.938 * SizeConfig.heightMultiplier!,
               ),
               TextField(
+                onChanged: (value) {
+                  setState(() {
+                    searchText = value.toLowerCase();
+                  });
+                },
                 decoration: InputDecoration(
                   hintText: 'Search',
                   hintStyle: TextStyle(
@@ -60,7 +71,9 @@ class ReturnItemsScreen extends StatelessWidget {
               const Divider(
                 thickness: 1.5,
               ),
-              IssuedItemsList(),
+              IssuedItemsList(
+                searchText: searchText,
+              ),
             ],
           ),
         ),

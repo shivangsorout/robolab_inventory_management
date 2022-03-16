@@ -6,6 +6,12 @@ import 'package:rim/size_config.dart';
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class IssuedItemsList extends StatelessWidget {
+  final String searchText;
+
+  IssuedItemsList({
+    required this.searchText,
+  });
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -13,23 +19,74 @@ class IssuedItemsList extends StatelessWidget {
       builder: (context, snapshot) {
         List<ReturnItemListTile> itemsList = [];
         final issuedItems = snapshot.data?.docs ?? [];
-        for (var document in issuedItems) {
-          var returnDate = document.get('return_date');
-          if (returnDate == 'NA') {
-            itemsList.add(
-              ReturnItemListTile(
-                componentUID: document.get('component_uid'),
-                componentId: document.get('component_id'),
-                issueDate: document.get('issue_date'),
-                quanityToBeReturned: document.get('quantity_issued'),
-                studentId: document.get('student_id'),
-                issueId: document.get('history_id'),
-              ),
-            );
+        if (searchText == '') {
+          for (var document in issuedItems) {
+            var returnDate = document.get('return_date');
+            if (returnDate == 'NA') {
+              itemsList.add(
+                ReturnItemListTile(
+                  componentUID: document.get('component_uid'),
+                  componentId: document.get('component_id'),
+                  issueDate: document.get('issue_date'),
+                  quanityToBeReturned: document.get('quantity_issued'),
+                  studentId: document.get('student_id'),
+                  issueId: document.id,
+                ),
+              );
+            }
+          }
+        } else {
+          itemsList.clear();
+          for (var document in issuedItems) {
+            var returnDate = document.get('return_date');
+            if (returnDate == 'NA' &&
+                (document
+                        .get('student_id')
+                        .toLowerCase()
+                        .contains(searchText) ||
+                    document
+                        .get('component_id')
+                        .toLowerCase()
+                        .contains(searchText))) {
+              itemsList.add(
+                ReturnItemListTile(
+                  componentUID: document.get('component_uid'),
+                  componentId: document.get('component_id'),
+                  issueDate: document.get('issue_date'),
+                  quanityToBeReturned: document.get('quantity_issued'),
+                  studentId: document.get('student_id'),
+                  issueId: document.id,
+                ),
+              );
+            }
           }
         }
         return Expanded(
-          child: ListView.separated(
+          child: itemsList.length == 0
+              ? searchText.isEmpty
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                          top: SizeConfig.heightMultiplier! * 2),
+                      child: Text(
+                        'No item issued at the moment!',
+                        style: TextStyle(
+                          fontSize: SizeConfig.textMultiplier! * 2.6,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          top: SizeConfig.heightMultiplier! * 2),
+                      child: Text(
+                        'Return record does not exist!',
+                        style: TextStyle(
+                          fontSize: SizeConfig.textMultiplier! * 3,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+              : ListView.separated(
             itemBuilder: (context, index) {
               return itemsList[index];
             },

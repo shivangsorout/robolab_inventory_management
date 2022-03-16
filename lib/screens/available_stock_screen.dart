@@ -11,6 +11,8 @@ class AvailableStockScreen extends StatefulWidget {
 }
 
 class _AvailableStockScreenState extends State<AvailableStockScreen> {
+  String searchText = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +48,11 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
                 height: 2.94 * SizeConfig.heightMultiplier!,
               ),
               TextField(
+                onChanged: (value) {
+                  setState(() {
+                    searchText = value.toLowerCase();
+                  });
+                },
                 decoration: InputDecoration(
                   hintText: 'Search',
                   hintStyle: TextStyle(
@@ -65,7 +72,7 @@ class _AvailableStockScreenState extends State<AvailableStockScreen> {
               const Divider(
                 thickness: 1.5,
               ),
-              ComponentsList(),
+              ComponentsList(searchText: searchText),
             ],
           ),
         ),

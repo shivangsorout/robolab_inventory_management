@@ -33,12 +33,15 @@ class IssueItemDetails {
   void setIndex(int index){
     this.index = index;
   }
+  // ignore: non_constant_identifier_names
   String get component_id{
     return _componentId;
   }
+  // ignore: non_constant_identifier_names
   String get quantity_to_be_issued{
     return _quantityToBeIssued;
   }
+  // ignore: non_constant_identifier_names
   int get quantity_available{
     return _quantityAvailable;
   }

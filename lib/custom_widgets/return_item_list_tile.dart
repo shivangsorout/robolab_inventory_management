@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/alert_message.dart';
 import 'package:rim/custom_widgets/confirm_alert_message.dart';
-import 'package:rim/models/available_items.dart';
-import 'package:rim/services/available_item_service.dart';
+import 'package:rim/services/app_service.dart';
 import 'package:rim/size_config.dart';
 
 class ReturnItemListTile extends StatefulWidget {
@@ -16,14 +15,15 @@ class ReturnItemListTile extends StatefulWidget {
   final int quanityToBeReturned;
   final String issueId;
 
-  ReturnItemListTile({
+  const ReturnItemListTile({
+    Key? key,
     required this.studentId,
     required this.componentId,
     required this.componentUID,
     required this.issueDate,
     required this.quanityToBeReturned,
     required this.issueId,
-  });
+  }) : super(key: key);
 
   @override
   State<ReturnItemListTile> createState() => _ReturnItemListTileState();
@@ -33,21 +33,19 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   int componentsQuantityIssued = 0;
   int componentsQuantityAvailable = 0;
+  AppService? provider;
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      var provider = Provider.of<AvailableItemsList>(context, listen: false);
-      List<AvailableItems> availableItemsList = [];
-      getAvailableItems(availableItemsList);
-      provider.initializingList(availableItemsList);
+      provider = Provider.of<AppService>(context, listen: false);
+      provider!.getAvailableItems();
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<AvailableItemsList>(context);
     return Container(
       padding: EdgeInsets.only(
         right: 6.109 * SizeConfig.widthMultiplier!,
@@ -59,7 +57,7 @@ class _ReturnItemListTileState extends State<ReturnItemListTile> {
         children: [
           IconButton(
             onPressed: () {
-              for (var item in provider.availableItemsList) {
+              for (var item in provider!.availableItemsList) {
                 if (item.componentId == widget.componentId) {
                   componentsQuantityAvailable =
                       int.parse(item.quantityAvailable);

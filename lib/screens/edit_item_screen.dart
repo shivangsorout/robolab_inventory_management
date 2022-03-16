@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:rim/constants.dart';
 import 'package:rim/custom_widgets/alert_message.dart';
 import 'package:rim/custom_widgets/component_details_tile.dart';
 import 'package:rim/custom_widgets/custom_button.dart';
@@ -119,6 +118,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                           : null,
                     ),
                     ComponentDetailsTile(
+                        textFieldEnabled: false,
                         tileName: 'Component Id',
                         controller: componentIdController,
                         onChanged: (val) {
