@@ -41,6 +41,14 @@ class TransactionsList extends StatelessWidget {
                 transaction
                     .get('student_id')
                     .toLowerCase()
+                    .contains(searchText) ||
+                transaction
+                    .get('issue_date')
+                    .toLowerCase()
+                    .contains(searchText) ||
+                transaction
+                    .get('return_date')
+                    .toLowerCase()
                     .contains(searchText)) {
               transactionsList.add(
                 HistoryListTile(
