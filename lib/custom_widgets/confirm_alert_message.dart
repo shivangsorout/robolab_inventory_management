@@ -3,6 +3,7 @@ import 'package:rim/custom_widgets/custom_button.dart';
 import 'package:rim/size_config.dart';
 
 class ConfirmAlertMessage extends StatelessWidget {
+  final String title;
   final String confirmingMessage;
   final void Function()? confirmOnPressed;
   final void Function()? cancelOnPressed;
@@ -11,6 +12,7 @@ class ConfirmAlertMessage extends StatelessWidget {
     required this.confirmingMessage,
     required this.confirmOnPressed,
     required this.cancelOnPressed,
+    this.title = 'Are you sure?',
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +20,7 @@ class ConfirmAlertMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        'Are you sure?',
+        title,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 4.21 * SizeConfig.textMultiplier!,

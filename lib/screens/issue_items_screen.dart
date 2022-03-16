@@ -32,6 +32,8 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   String currentDate = '';
   AppService? provider;
   bool keyboardVisible = false;
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _listViewScrollController = ScrollController();
   Map<int, String> componentsAvailabilityState = {
     0: 'This component is available with max quantity of ',
     1: 'This component is not available at the moment.',
@@ -204,12 +206,31 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   }
 
   @override
+  void dispose() {
+    studentIdController.dispose();
+    _scrollController.dispose();
+    _listViewScrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (keyboardVisible) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
+      _listViewScrollController.animateTo(
+        _listViewScrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
+    }
     setState(() {
-      if(MediaQuery.of(context).viewInsets.bottom != 0){
+      if (MediaQuery.of(context).viewInsets.bottom != 0) {
         keyboardVisible = true;
-      }
-      else{
+      } else {
         keyboardVisible = false;
       }
     });
@@ -223,6 +244,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
             vertical: 2 * SizeConfig.heightMultiplier!,
           ),
           child: SingleChildScrollView(
+            controller: _scrollController,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -273,6 +295,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                     SizedBox(
                       height: SizeConfig.heightMultiplier! * 56,
                       child: ListView.builder(
+                        controller: _listViewScrollController,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           var temp = itemCardsList[index];
@@ -323,10 +346,11 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                         itemCount: itemCardsList.length,
                       ),
                     ),
-                    if(keyboardVisible)
-                    SizedBox(
-                      height: MediaQuery.of(context).viewInsets.bottom - MediaQuery.of(context).viewInsets.bottom * 0.50,
-                    )
+                    if (keyboardVisible)
+                      SizedBox(
+                        height: MediaQuery.of(context).viewInsets.bottom -
+                            MediaQuery.of(context).viewInsets.bottom * 0.50,
+                      )
                   ],
                 ),
                 Column(
@@ -389,7 +413,8 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                   if (itemDetailsList[index].component_id !=
                                       '') {
                                     int flag = 0;
-                                    for (var item in provider!.availableItemsList) {
+                                    for (var item
+                                        in provider!.availableItemsList) {
                                       if (itemDetailsList[index].component_id ==
                                           item.componentId) {
                                         if (int.parse(item.quantityAvailable) !=
@@ -469,6 +494,11 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                               ),
                             );
                           });
+                          _listViewScrollController.animateTo(
+                            _listViewScrollController.position.maxScrollExtent,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeOut,
+                          );
                         },
                       ),
                     ),
@@ -538,7 +568,8 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                 itemDetailsList.isNotEmpty &&
                                 !valErrorStudentId) {
                               for (var item in itemDetailsList) {
-                                for (var component in provider!.availableItemsList) {
+                                for (var component
+                                    in provider!.availableItemsList) {
                                   if (component.componentId ==
                                       item.component_id) {
                                     _firestore.collection('history').add({

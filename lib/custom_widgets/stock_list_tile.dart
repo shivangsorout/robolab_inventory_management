@@ -34,9 +34,11 @@ class _StockListTileState extends State<StockListTile> {
 
   void getDocumentReference(QuerySnapshot snapshot) {
     for (var document in snapshot.docs) {
-      setState(() {
-        documentReference = document.reference;
-      });
+      if (mounted) {
+        setState(() {
+          documentReference = document.reference;
+        });
+      }
     }
   }
 
@@ -108,16 +110,14 @@ class _StockListTileState extends State<StockListTile> {
                   children: [
                     SizedBox(
                       width: SizeConfig.widthMultiplier! * 50,
-                      child: Expanded (
-                        child: Text(
-                          widget.componentName,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 2.154 * SizeConfig.textMultiplier!,
-                          ),
+                      child: Text(
+                        widget.componentName,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                          fontSize: 2.154 * SizeConfig.textMultiplier!,
                         ),
                       ),
                     ),
