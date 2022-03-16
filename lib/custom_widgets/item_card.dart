@@ -123,6 +123,8 @@ class _ItemCardState extends State<ItemCard> {
                     height: 1.469 * SizeConfig.heightMultiplier!,
                   ),
                   TypeAheadField(
+                    hideSuggestionsOnKeyboardHide: false,
+                    hideOnLoading: false,
                     textFieldConfiguration: TextFieldConfiguration(
                       keyboardType: TextInputType.text,
                       style: TextStyle(

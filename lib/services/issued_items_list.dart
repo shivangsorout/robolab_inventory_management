@@ -30,7 +30,7 @@ class IssuedItemsList extends StatelessWidget {
                   issueDate: document.get('issue_date'),
                   quanityToBeReturned: document.get('quantity_issued'),
                   studentId: document.get('student_id'),
-                  issueId: document.get('history_id'),
+                  issueId: document.id,
                 ),
               );
             }
@@ -55,7 +55,7 @@ class IssuedItemsList extends StatelessWidget {
                   issueDate: document.get('issue_date'),
                   quanityToBeReturned: document.get('quantity_issued'),
                   studentId: document.get('student_id'),
-                  issueId: document.get('history_id'),
+                  issueId: document.id,
                 ),
               );
             }
