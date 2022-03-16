@@ -16,6 +16,7 @@ import 'package:rim/size_config.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Firebase.initializeApp();
   runApp(const RobolabManagement());
   SystemChrome.setSystemUIOverlayStyle(
