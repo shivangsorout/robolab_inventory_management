@@ -32,8 +32,6 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   String currentDate = '';
   AppService? provider;
   bool keyboardVisible = false;
-  final ScrollController _scrollController = ScrollController();
-  final ScrollController _listViewScrollController = ScrollController();
   Map<int, String> componentsAvailabilityState = {
     0: 'This component is available with max quantity of ',
     1: 'This component is not available at the moment.',
@@ -208,25 +206,11 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
   @override
   void dispose() {
     studentIdController.dispose();
-    _scrollController.dispose();
-    _listViewScrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (keyboardVisible) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOut,
-      );
-      _listViewScrollController.animateTo(
-        _listViewScrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOut,
-      );
-    }
     setState(() {
       if (MediaQuery.of(context).viewInsets.bottom != 0) {
         keyboardVisible = true;
@@ -244,7 +228,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
             vertical: 2 * SizeConfig.heightMultiplier!,
           ),
           child: SingleChildScrollView(
-            controller: _scrollController,
+            physics: const ScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -295,8 +279,8 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                     SizedBox(
                       height: SizeConfig.heightMultiplier! * 56,
                       child: ListView.builder(
-                        controller: _listViewScrollController,
                         shrinkWrap: true,
+                        physics: const ScrollPhysics(),
                         itemBuilder: (context, index) {
                           var temp = itemCardsList[index];
                           itemCardsList[index] = ItemCard(
@@ -494,11 +478,6 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                               ),
                             );
                           });
-                          _listViewScrollController.animateTo(
-                            _listViewScrollController.position.maxScrollExtent,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeOut,
-                          );
                         },
                       ),
                     ),
