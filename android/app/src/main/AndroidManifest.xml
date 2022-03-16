@@ -2,7 +2,7 @@
     package="com.example.rim">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
-        android:label="rim"
+        android:label="Robolab Management"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
