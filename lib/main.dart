@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:rim/firebase_options.dart';
 import 'package:rim/screens/add_item_screen.dart';
 import 'package:rim/screens/available_stock_screen.dart';
 import 'package:rim/screens/history_screen.dart';
@@ -14,10 +15,12 @@ import 'package:rim/screens/welcome_screen.dart';
 import 'package:rim/services/app_service.dart';
 import 'package:rim/size_config.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const RobolabManagement());
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -43,6 +46,7 @@ class RobolabManagement extends StatelessWidget {
             builder: (context, orientation) {
               SizeConfig().init(constraints, orientation);
               return MaterialApp(
+                debugShowCheckedModeBanner: false,
                 initialRoute: WelcomeScreen.id,
                 routes: {
                   WelcomeScreen.id: (context) => WelcomeScreen(),

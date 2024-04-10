@@ -604,7 +604,7 @@ class _IssueItemsScreenState extends State<IssueItemsScreen> {
                                   );
                                 },
                               );
-                            } else if (!duplicateItemList.isEmpty) {
+                            } else if (duplicateItemList.isNotEmpty) {
                               String duplicateItems = '';
                               for (var i in duplicateItemList) {
                                 if (i ==

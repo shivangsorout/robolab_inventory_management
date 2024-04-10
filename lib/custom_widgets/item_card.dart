@@ -123,55 +123,60 @@ class _ItemCardState extends State<ItemCard> {
                     height: 1.469 * SizeConfig.heightMultiplier!,
                   ),
                   TypeAheadField(
-                    hideSuggestionsOnKeyboardHide: false,
+                    hideWithKeyboard: false,
                     hideOnLoading: false,
-                    textFieldConfiguration: TextFieldConfiguration(
-                      keyboardType: TextInputType.text,
-                      style: TextStyle(
-                        fontSize: 1.33 * SizeConfig.heightMultiplier!,
-                      ),
-                      controller: widget.componentIdController,
-                      onChanged: (val) {
-                        widget.onChangedComponentId(val, widget.index!);
-                        setState(() {
-                          notifyingTextColor =
-                              widget.notifyingTextColor(widget.index!)!;
-                          visibility = widget.visibilityText(widget.index!);
-                          text = widget.notifyingText(widget.index!)!;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        errorText: widget.errorTextComponentId(widget.index!),
-                        hintText: 'Component ID',
-                        hintStyle: TextStyle(
-                          fontSize: 1.469 * SizeConfig.heightMultiplier!,
-                          color: const Color(0xffbdbdbd),
+                    builder: (context, controller, focusNode) {
+                      return TextField(
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(
+                          fontSize: 1.33 * SizeConfig.heightMultiplier!,
                         ),
-                        filled: true,
-                        fillColor: const Color(0xfff6f6f6),
-                        border: kRoundedBorder,
-                        enabledBorder: kRoundedBorder,
-                        focusedBorder: kRoundedBorder,
-                      ),
-                    ),
+                        controller: widget.componentIdController,
+                        onChanged: (val) {
+                          widget.onChangedComponentId(val, widget.index!);
+                          setState(() {
+                            notifyingTextColor =
+                                widget.notifyingTextColor(widget.index!)!;
+                            visibility = widget.visibilityText(widget.index!);
+                            text = widget.notifyingText(widget.index!)!;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          errorText: widget.errorTextComponentId(widget.index!),
+                          hintText: 'Component ID',
+                          hintStyle: TextStyle(
+                            fontSize: 1.469 * SizeConfig.heightMultiplier!,
+                            color: const Color(0xffbdbdbd),
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xfff6f6f6),
+                          border: kRoundedBorder,
+                          enabledBorder: kRoundedBorder,
+                          focusedBorder: kRoundedBorder,
+                        ),
+                      );
+                    },
                     suggestionsCallback: (value) {
                       return getSuggestions(value);
                     },
                     itemBuilder: (context, AvailableItems suggestion) {
                       return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 10),
                         title: Text(suggestion.componentName),
                       );
                     },
-                    onSuggestionSelected: (AvailableItems suggestion) {
-                      widget.componentIdController!.text = suggestion.componentId;
-                      widget.onChangedComponentId(suggestion.componentId, widget.index!);
-                        setState(() {
-                          notifyingTextColor =
-                              widget.notifyingTextColor(widget.index!)!;
-                          visibility = widget.visibilityText(widget.index!);
-                          text = widget.notifyingText(widget.index!)!;
-                        });
+                    onSelected: (AvailableItems suggestion) {
+                      widget.componentIdController!.text =
+                          suggestion.componentId;
+                      widget.onChangedComponentId(
+                          suggestion.componentId, widget.index!);
+                      setState(() {
+                        notifyingTextColor =
+                            widget.notifyingTextColor(widget.index!)!;
+                        visibility = widget.visibilityText(widget.index!);
+                        text = widget.notifyingText(widget.index!)!;
+                      });
                     },
                   ),
                   // TextField(
