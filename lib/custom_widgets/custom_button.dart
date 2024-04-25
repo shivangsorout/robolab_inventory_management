@@ -4,6 +4,7 @@ import 'package:rim/size_config.dart';
 class CustomButton extends StatelessWidget {
   final Color backgroundColor;
   final String text;
+  final Color textColor;
   final void Function()? onPressed;
 
   const CustomButton({
@@ -11,6 +12,7 @@ class CustomButton extends StatelessWidget {
     required this.backgroundColor,
     required this.text,
     required this.onPressed,
+    this.textColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -29,7 +31,7 @@ class CustomButton extends StatelessWidget {
         text,
         style: TextStyle(
           fontSize: 1.6 * SizeConfig.heightMultiplier!,
-          color: Colors.white,
+          color: textColor,
         ),
       ),
     );

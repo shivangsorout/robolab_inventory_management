@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:rim/firebase_options.dart';
 import 'package:rim/screens/add_item_screen.dart';
 import 'package:rim/screens/available_stock_screen.dart';
+import 'package:rim/screens/forgot_password_screen.dart';
 import 'package:rim/screens/history_screen.dart';
 import 'package:rim/screens/home_screen.dart';
 import 'package:rim/screens/issue_items_screen.dart';
 import 'package:rim/screens/manager_signin_screen.dart';
 import 'package:rim/screens/return_items_screen.dart';
 import 'package:rim/screens/update_stock_screen.dart';
+import 'package:rim/screens/verify_email_screen.dart';
 import 'package:rim/screens/welcome_screen.dart';
 import 'package:rim/services/app_service.dart';
 import 'package:rim/size_config.dart';
@@ -49,8 +51,9 @@ class RobolabManagement extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 initialRoute: WelcomeScreen.id,
                 routes: {
-                  WelcomeScreen.id: (context) => WelcomeScreen(),
-                  ManagerSignInScreen.id: (context) => ManagerSignInScreen(),
+                  WelcomeScreen.id: (context) => const WelcomeScreen(),
+                  ManagerSignInScreen.id: (context) =>
+                      const ManagerSignInScreen(),
                   HomeScreen.id: (context) => HomeScreen(),
                   AvailableStockScreen.id: (context) => AvailableStockScreen(),
                   UpdateStockScreen.id: (context) => UpdateStockScreen(),
@@ -58,6 +61,9 @@ class RobolabManagement extends StatelessWidget {
                   IssueItemsScreen.id: (context) => IssueItemsScreen(),
                   ReturnItemsScreen.id: (context) => ReturnItemsScreen(),
                   HistoryScreen.id: (context) => HistoryScreen(),
+                  ForgotPasswordScreen.id: (context) =>
+                      const ForgotPasswordScreen(),
+                  VerifyEmailScreen.id: (context) => const VerifyEmailScreen(),
                 },
               );
             },

@@ -12,6 +12,8 @@ class AlertMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
       content: Text(
         message,
         textAlign: TextAlign.center,
@@ -19,7 +21,6 @@ class AlertMessage extends StatelessWidget {
           fontSize: 3.72 * SizeConfig.textMultiplier!,
           color: Colors.black,
           fontWeight: FontWeight.w500,
-          backgroundColor: Colors.white,
         ),
       ),
       contentPadding: EdgeInsets.symmetric(
